@@ -157,4 +157,47 @@ router.get("/jobs", function(req, res, callback){
     })
 })
 
+router.get("/job/:id", function(req, res, callback){
+    const condition = {
+        fields: "*",
+        id: req.params.id
+    }
+    common_function.getJobById(condition, function(error, jobs){
+        if(error) callback(error)
+        else{
+            res.json(jobs)
+        }
+    })
+})
+
+router.post("/edit_job/:id", function(req, res, callback){
+    const condition = {
+        id: req.params.id
+    }
+
+    common_function.editJobById(condition, function(error, result){
+        if(error) callback(error)
+        else{
+            res.redirect("/jobs")
+        }
+    })
+
+})
+
+router.post("/delete_job/:id", function(req, res, callback){
+    const condition = {
+        id: req.params.id
+    }
+
+    common_function.deleteJobById(condition, function(error, result){
+        if(error) callback(error)
+        else{
+            res.redirect("/jobs")
+        }
+    })
+
+})
+
+
+
 module.exports = router;

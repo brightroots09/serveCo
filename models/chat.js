@@ -8,7 +8,7 @@ module.exports = {
                 FriendID text COLLATE utf8mb4_unicode_ci NOT NULL,
                 Message text COLLATE utf8mb4_unicode_ci NOT NULL,
                 Image text COLLATE utf8mb4_unicode_ci NOT NULL,
-                DateTime datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+                DateTime datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 UserName varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                 UserImage text COLLATE utf8mb4_unicode_ci NOT NULL,
                 ChatType varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,

@@ -1,10 +1,17 @@
 const mysql = require('mysql');
 
 global.con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'erp'
+    // host: '127.0.0.1',
+    // user: 'mac',
+    // password: 'bright123',
+    // database: 'erp'
+    "host": "127.0.0.1",
+    "port": 3306,
+    "database": "erp",
+    "password": "root",
+    "user": "root",
+    "connector": "mysql",
+    "socketPath": "/Applications/MAMP/tmp/mysql/mysql.sock"
 });
 
 let connection = async function () {
