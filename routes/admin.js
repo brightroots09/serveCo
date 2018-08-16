@@ -219,16 +219,16 @@ router.post("/send_email/:id", function (req, res, callback) {
         if (error) callback(error)
         else {
             var transporter = nodemailer.createTransport({
-                service: 'gmail',
+                host: 'sg1-ls1.a2hosting.com',
                 auth: {
-                    user: 'arpit.nagpal54@gmail.com',
-                    pass: 'Arpit729148@'
+                    user: 'brightroots09@brightroots.net',
+                    pass: 'j%33gLLY+Gkt'
                 }
             });
 
             var mailOptions = {
-                from: 'aript.nagpal54@gmail.com',
-                to: 'arpit.nagpal54@gmail.com',
+                from: 'brightroots09@brightroots.net',
+                to: `${customer[0].email}`,
                 subject: 'Credentials',
                 text: `Your Email: ${customer[0].email}, Your Password: ${customer[0].password}`
             };
