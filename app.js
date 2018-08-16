@@ -18,7 +18,11 @@ app.use(morgan("dev"));
 //body parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use(express.static(path.join(__dirname, 'dist/ERP')));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.set('views', path.join(__dirname, '/views'));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
 //Routes
 const admin = require("./routes/admin");
@@ -28,7 +32,7 @@ app.use(admin);
 // app.use(employee);
 
 app.get("*", (req, res, callback) => {
-    res.json("Home Route")
+    res.render("index.html")
 })
 
 sqlConnection();

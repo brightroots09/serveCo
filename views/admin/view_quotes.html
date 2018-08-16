@@ -1,0 +1,130 @@
+<%- include('../layouts/header.html') %>
+    <% if(quotes.length > 0){ %>
+        <div class="right-side">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="top_heading">
+                        <h3>Quote</h3>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="responsive">
+                        <table class="table table-striped table-bordered" id="example" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Customers Name</th>
+                                    <th>Contractors Name</th>
+                                    <th>Job Name</th>
+                                    <th>Price per hour</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for(quote in quotes) { %>
+                                <tr>
+                                    <td><%= quotes[quote].accepted_user_Fname %> <%= quotes[quote].accepted_user_Lname %></td>
+                                    <td><%= quotes[quote].contractor_Fname %> <%= quotes[quote].contractor_Lname %></td>
+                                    <td><%= quotes[quote].service_name %></td>
+                                    <td><%= quotes[quote].PricePerHour %></td>
+                                    <td>In Progress</td>
+                                    <td style="width:180px;">
+                                        <a href="/quote/<%= quotes[quote].ID %>">
+                                            <img src="/images/view.png" title="View" alt="">
+                                        </a>
+                                        <a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= quotes[quote].ID %>">
+                                            <img src="/images/edit.png" title="Edit" alt="">
+                                        </a>
+                                        <a href="javascript:void();">
+                                            <img src="/images/delete.png" title="Delete" alt="">
+                                        </a>
+                                        <a href="javascript:void();">
+                                            <img src="/images/download.png" title="Delete" alt="">
+                                        </a>
+                                    </td>
+                                </tr>
+                                <div class="model_popup">
+                                    <div id="myModal<%= quotes[quote].ID %>" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 text-center">
+                                                            <h2>Edit Quote</h2>
+                                                        </div>
+                                                        <form>
+                                                            <div class="input_content">
+                                                                <div class="col-sm-6">
+                                                                    <label>Company Name</label>
+                                                                    <input type="text" class="form-control" value="Bright roots">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label>Customers Name</label>
+                                                                    <input type="text" class="form-control" value="Johan">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label>Contractors Name</label>
+                                                                    <input type="text" class="form-control" value="Johan Deo">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label>Job Name</label>
+                                                                    <input type="text" class="form-control" value="Plumbing">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label>Location</label>
+                                                                    <input type="text" class="form-control" value="Phase 8b Mohali">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label>Price per hour</label>
+                                                                    <input type="text" class="form-control" value="$10">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label>Travel Charges</label>
+                                                                    <input type="text" class="form-control" value="$10">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label>Track Changes</label>
+                                                                    <input type="text" class="form-control" value="$10">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label>ETA</label>
+                                                                    <input type="text" class="form-control" value="10 min">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label>Status</label>
+                                                                    <input type="text" class="form-control" value="In Progress">
+                                                                </div>
+                                                                <div class="col-xs-6">
+                                                                    <input type="button" value="Cancel" class="btn btn-primary" data-dismiss="modal">
+                                                                </div>
+                                                                <div class="col-xs-6 text-right">
+                                                                    <input type="button" value="Save" class="btn btn-primary" style="background:#3ba997;">
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+        
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } else{ %>
+            <div class="right-side">
+                    <h1>
+                        No Quotes Found!
+                    </h1>
+                
+                </div>
+            <% } %>
+        </body>
+
+        </html>
