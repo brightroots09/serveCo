@@ -10,11 +10,13 @@ var tech_relation_with_contr = require("./tech_relation_with_contr")
 var token = require("./token")
 var user_group = require("./user_group")
 var user = require("./user")
-var working_status = require("./working_status")
+var working_status = require("./working_status");
+var admin = require("./admin")
 
 
 let model_index = async () => {
     try {
+        await admin.sql_admin();
         await chat.sql_chat();
         await estimation_setting.sql_estimation_setting();
         await estimation.sql_estimation();

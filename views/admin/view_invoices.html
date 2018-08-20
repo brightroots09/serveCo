@@ -25,7 +25,7 @@
 								<% for(res in result){ %>
 								<tr>
 									<td>
-											<%= result[res].invoice_id %>
+										<%= result[res].invoice_id %>
 									</td>
 									<td>Issued</td>
 									<td>Abc</td>
@@ -33,18 +33,17 @@
 									<td><%= result[res].user_fname %> <% result[res].user_lname %></td>
 									<td><%= result[res].amount %></td>
 									<td style="width:180px;">
-										<a href="invoice/<%= result[res].invoice_id %>">
-											<img src="/images/view.png" title="View" alt="">
-										</a>
-										<a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= result[res].invoice_id %>">
-											<img src="/images/edit.png" title="Edit" alt="">
-										</a>
-										<a href="javascript:void(0);">
-											<img src="/images/delete.png" title="Delete" alt="">
-										</a>
-										<a href="javascript:void(0);">
-											<img src="/images/download.png" title="Delete" alt="">
-										</a>
+										<form action="/delete_invoice/<%= result[res].invoice_id %>" method="POST">
+											<a href="invoice/<%= result[res].invoice_id %>">
+												<img src="/images/view.png" title="View" alt="">
+											</a>
+											<a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= result[res].invoice_id %>">
+												<img src="/images/edit.png" title="Edit" alt="">
+											</a>
+											<button type="submit" class="btn btn-link">
+												<img src="/images/delete.png" title="Delete" alt="">
+											</button>
+										</form>
 									</td>
 								</tr>
 										<div class="model_popup">
@@ -56,41 +55,21 @@
 																<div class="col-sm-12 text-center">
 																	<h2>Edit Invoice</h2>
 																</div>
-																<form>
+																<form action="/edit_invoice/<%= result[res].invoice_id %>" method="POST">
 																	<div class="input_content">
 																		<div class="col-sm-6">
-																			<label>Invoice no</label>
-																			<input type="text" class="form-control" value="<%= result[res].invoice_id %>">
-																		</div>
-																		<div class="col-sm-6">
-																			<label>Status</label>
-																			<input type="text" class="form-control" value="Issued">
-																		</div>
-																		<div class="col-sm-6">
 																			<label>Invoice Name</label>
-																			<input type="text" class="form-control" value="abc">
+																			<input type="text" name="invoice_name" class="form-control" value="abc">
 																		</div>
-																		<div class="col-sm-6">
-																			<label>Date</label>
-																			<input type="text" class="form-control" value="05-10-2018">
-																		</div>
-																		<div class="col-sm-6">
-																			<label>Customer First Name</label>
-																			<input type="text" class="form-control" value="<%= result[res].user_fname %>">
-																		</div>
-																		<div class="col-sm-6">
-																				<label>Customer Last Name</label>
-																				<input type="text" class="form-control" value="<% result[res].user_lname %>">
-																			</div>
 																		<div class="col-sm-6">
 																			<label>Amount</label>
-																			<input type="text" class="form-control" value="<%= result[res].amount %>">
+																			<input type="text" name="invoice_amount" class="form-control" value="<%= result[res].amount %>">
 																		</div>
 																		<div class="col-xs-6">
 																			<input type="button" value="Cancel" class="btn btn-primary" data-dismiss="modal">
 																		</div>
 																		<div class="col-xs-6 text-right">
-																			<input type="button" value="Save" class="btn btn-primary" style="background:#3ba997;">
+																			<input type="submit" value="Save" class="btn btn-primary" style="background:#3ba997;">
 																		</div>
 																	</div>
 																</form>

@@ -32,63 +32,41 @@
 																<div class="col-sm-12 text-center">
 																	<h2>Customers</h2>
 																</div>
-																<form>
+																<form method="POST" action="/edit_technician/<%= result[user].Id %>">
 																	<div class="input_content">
-																		<div class="col-sm-6 show_image">
-																			<label>Upload other certifications</label>
-																			<div class="fix-height">
-																				<input type="file" class="form-control">
-																				<span class="form-control content_set text-center">
-																					<img src="/images/<%= result[user].ProfilePic %>" alt="" title="">
-																				</span>
-																			</div>
-																		</div>
-																		<div class="col-sm-6 show_image">
-																			<label>Upload licenses image</label>
-																			<div class="fix-height">
-																				<input type="file" class="form-control">
-																				<span class="form-control content_set text-center">
-																					<img src="/images/<%= result[user].LicenseImage %>" alt="" title="">
-																				</span>
-																			</div>
-																		</div>
 																		<div class="col-sm-6">
 																			<label>First Name</label>
-																			<input type="text" class="form-control" value="<%= result[user].Fname %>">
+																			<input type="text" class="form-control" name="first_name" value="<%= result[user].Fname %>">
 																		</div>
 																		<div class="col-sm-6">
 																				<label>Last Name</label>
-																				<input type="text" class="form-control" value="<%= result[user].Lname %>">
+																				<input type="text" class="form-control" name="last_name" value="<%= result[user].Lname %>">
 																			</div>
 																		<div class="col-sm-6">
 																			<label>Email</label>
-																			<input type="text" class="form-control" value="<%= result[user].Email %>">
+																			<input type="text" class="form-control" name="email" value="<%= result[user].Email %>">
 																		</div>
 																		<div class="col-sm-6">
 																			<label>Phone Number</label>
-																			<input type="text" class="form-control" value="<%= result[user].ContactNo %>">
+																			<input type="text" class="form-control" name="phone_number" value="<%= result[user].ContactNo %>">
 																		</div>
 																		<div class="col-sm-6">
 																			<label>Company </label>
-																			<input type="text" class="form-control" value="<%= result[user].CompanyName %>">
+																			<input type="text" class="form-control" name="company_name" value="<%= result[user].CompanyName %>">
 																		</div>
 																		<div class="col-sm-6">
 																			<label>Designation</label>
-																			<input type="text" class="form-control" value="<%= result[user].Skill %>">
+																			<input type="text" class="form-control" name="designation" value="<%= result[user].Skill %>">
 																		</div>
 																		<div class="col-sm-6">
 																			<label>Licence no</label>
-																			<input type="text" class="form-control" value="<%= result[user].LicenceNo %>">
-																		</div>
-																		<div class="col-sm-12">
-																			<label>Status</label>
-																			<input type="text" class="form-control" value="Approved">
+																			<input type="text" class="form-control" name="licence_no" value="<%= result[user].LicenceNo %>">
 																		</div>
 																		<div class="col-xs-6">
 																			<input type="button" value="Cancel" class="btn btn-primary" data-dismiss="modal">
 																		</div>
 																		<div class="col-xs-6 text-right">
-																			<input type="button" value="Save" class="btn btn-primary" style="background:#3ba997;">
+																			<input type="submit" value="Save" class="btn btn-primary" style="background:#3ba997;">
 																		</div>
 																	</div>
 																</form>
@@ -110,15 +88,17 @@
 									<td><%= result[user].Skill %></td>
 									<td>Approved</td>
 									<td>
-										<a href="/technicians_details/<%= result[user].Id %>">
-											<img src="/images/view.png" title="View" alt="">
-										</a>
-										<a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= result[user].Id %>">
-											<img src="/images/edit.png" title="Edit" alt="">
-										</a>
-										<a href="javascript:void(0);">
-											<img src="/images/delete.png" title="Delete" alt="">
-										</a>
+										<form action="/delete_user/<%= result[user].Id %>" method="POST">
+											<a href="/technicians_details/<%= result[user].Id %>">
+												<img src="/images/view.png" title="View" alt="">
+											</a>
+											<a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= result[user].Id %>">
+												<img src="/images/edit.png" title="Edit" alt="">
+											</a>
+											<button type="submit" class="btn btn-link" href="javascript:void(0);">
+												<img src="/images/delete.png" title="Delete" alt="">
+											</button>
+										</form>
 									</td>
 								</tr>
 								<% } %>

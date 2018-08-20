@@ -24,6 +24,7 @@ app.set('views', path.join(__dirname, '/views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
+
 //Routes
 const admin = require("./routes/admin");
 // const employee = require("./routes/employee")

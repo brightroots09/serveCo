@@ -26,30 +26,44 @@
                             <tbody>
                                 <% for(job in jobs){  %>
                                 <tr>
-                                    <td><%= jobs[job].customer_Fname %> <%= jobs[job].customer_Lname %></td>
-                                    <td><%= jobs[job].contractor_Fname %> <%= jobs[job].contractor_Lname %></td>
-                                    <td><%= jobs[job].technician_Fname %> <%= jobs[job].technician_Lname %></td>
+                                    <% if(jobs[job].customer_Fname != ""){ %>
+                                        <td><%= jobs[job].customer_Fname %> <%= jobs[job].customer_Lname %></td>
+                                    <% } else { %>
+                                        <td><%= jobs[job].customer_company_name %></td>
+                                    <% } %>
+                                    <% if(jobs[job].contractor_Fname != "" ){ %>
+                                        <td><%= jobs[job].contractor_Fname %> <%= jobs[job].contractor_Lname %></td>
+                                    <% }else { %>
+                                        <td><%= jobs[job].contactor_company_name %></td>
+                                    <% } %>
+                                    <% if(jobs[job].technician_Fname != ""){ %>
+                                        <td><%= jobs[job].technician_Fname %> <%= jobs[job].technician_Lname %></td>
+                                    <% }else{ %>
+                                        <td><%= jobs[job].technician_comapny_name %></td>
+                                    <% } %>
                                     <td><%= jobs[job].SERVICENAME %></td>
                                     <td><%= jobs[job].ADDRESS %></td>
                                     <td>$25</td>
-                                    <td class="completed">Completed</td>
+                                    <td><span class="label label-success" style="padding: 5px;">Completed</span></td>
                                     <td style="width:180px;">
-                                        <a href="/job/<%= jobs[job].service_id %>">
-                                            <img src="/images/view.png" title="View" alt="">
-                                        </a>
-                                        <a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= jobs[job].ID %>">
-                                            <img src="/images/edit.png" title="Edit" alt="">
-                                        </a>
-                                        <a href="javascript:void(0);">
-                                            <img src="/images/delete.png" title="Delete" alt="">
-                                        </a>
-                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#new">
-                                            <img src="/images/message.png" title="Delete" alt="">
-                                        </a>
+                                        <form action="/delete_job/<%= jobs[job].service_id %>" method="POST">
+                                            <a href="/job/<%= jobs[job].service_id %>">
+                                                <img src="/images/view.png" title="View" alt="">
+                                            </a>
+                                            <a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= jobs[job].service_id %>">
+                                                <img src="/images/edit.png" title="Edit" alt="">
+                                            </a>
+                                            <button type="submit" class="btn btn-link">
+                                                <img src="/images/delete.png" title="Delete" alt="">
+                                            </button>
+                                            <a href="javascript:void(0);" data-toggle="modal" data-target="#new">
+                                                <img src="/images/message.png" title="Delete" alt="">
+                                            </a>
+                                        </form>
                                     </td>
                                 </tr>
                                 <div class="model_popup">
-                                    <div id="myModal" class="modal fade" role="dialog">
+                                    <div id="myModal<%= jobs[job].service_id %>" class="modal fade" role="dialog">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-body">
@@ -57,53 +71,25 @@
                                                         <div class="col-sm-12 text-center">
                                                             <h2>Edit job</h2>
                                                         </div>
-                                                        <form>
+                                                        <form action="/edit_job/<%= jobs[job].service_id %>" method="POST">
                                                             <div class="input_content">
                                                                 <div class="col-sm-6">
-                                                                    <label>User First Name</label>
-                                                                    <input type="text" class="form-control" value="<%= jobs[job].customer_Fname %>">
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <label>User Last Name</label>
-                                                                    <input type="text" class="form-control" value="<%= jobs[job].customer_Lname %>">
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <label>Contractor First Name</label>
-                                                                    <input type="text" class="form-control" value="<%= jobs[job].contractor_Fname %>">
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <label>Contractor Last Name</label>
-                                                                    <input type="text" class="form-control" value="<%= jobs[job].contractor_Lname %>">
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <label>Technician First Name</label>
-                                                                    <input type="text" class="form-control" value="<%= jobs[job].technician_Fname %>">
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <label>Technician Last Name</label>
-                                                                    <input type="text" class="form-control" value="<%= jobs[job].technician_Lname %>">
-                                                                </div>
-                                                                <div class="col-sm-6">
                                                                     <label>Services</label>
-                                                                    <input type="text" class="form-control" value="<%= jobs[job].SERVICENAME %>">
+                                                                    <input type="text" class="form-control" name="service_name" value="<%= jobs[job].SERVICENAME %>">
                                                                 </div>
                                                                 <div class="col-sm-6">
                                                                     <label>Location</label>
-                                                                    <input type="text" class="form-control" value="<%= jobs[job].ADDRESS %>">
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <label>Price</label>
-                                                                    <input type="text" class="form-control" value="$25">
+                                                                    <input type="text" class="form-control" name="address" value="<%= jobs[job].ADDRESS %>">
                                                                 </div>
                                                                 <div class="col-sm-12">
                                                                     <label>Urgency</label>
-                                                                    <input type="text" class="form-control" value="<%= jobs[job].URGENCY %>">
+                                                                    <input type="text" class="form-control" name="urgency" value="<%= jobs[job].URGENCY %>">
                                                                 </div>
                                                                 <div class="col-xs-6">
                                                                     <input type="button" value="Cancel" class="btn btn-primary" data-dismiss="modal">
                                                                 </div>
                                                                 <div class="col-xs-6 text-right">
-                                                                    <input type="button" value="Save" class="btn btn-primary" style="background:#3ba997;">
+                                                                    <input type="submit" value="Save" class="btn btn-primary" style="background:#3ba997;">
                                                                 </div>
                                                             </div>
                                                         </form>

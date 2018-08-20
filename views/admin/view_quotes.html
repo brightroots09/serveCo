@@ -23,24 +23,31 @@
                             <tbody>
                                 <% for(quote in quotes) { %>
                                 <tr>
-                                    <td><%= quotes[quote].accepted_user_Fname %> <%= quotes[quote].accepted_user_Lname %></td>
-                                    <td><%= quotes[quote].contractor_Fname %> <%= quotes[quote].contractor_Lname %></td>
+                                    <% if(quotes[quote].accepted_user_Fname != ""){ %>
+                                        <td><%= quotes[quote].accepted_user_Fname %> <%= quotes[quote].accepted_user_Lname %></td>
+                                    <% }else{ %>
+                                        <td><%= quotes[quote].accepted_user_company_name %></td>
+                                    <% } %>
+                                    <% if(quotes[quote].contractor_Fname != ""){ %>
+                                        <td><%= quotes[quote].contractor_Fname %> <%= quotes[quote].contractor_Lname %></td>
+                                    <% }else{ %>
+                                        <td><%= quotes[quote].contractor_company_name %></td>
+                                    <% } %>
                                     <td><%= quotes[quote].service_name %></td>
                                     <td><%= quotes[quote].PricePerHour %></td>
-                                    <td>In Progress</td>
+                                    <td><span class="label label-info" style="padding: 5px;">In Progress</span></td>
                                     <td style="width:180px;">
-                                        <a href="/quote/<%= quotes[quote].ID %>">
-                                            <img src="/images/view.png" title="View" alt="">
-                                        </a>
-                                        <a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= quotes[quote].ID %>">
-                                            <img src="/images/edit.png" title="Edit" alt="">
-                                        </a>
-                                        <a href="javascript:void();">
-                                            <img src="/images/delete.png" title="Delete" alt="">
-                                        </a>
-                                        <a href="javascript:void();">
-                                            <img src="/images/download.png" title="Delete" alt="">
-                                        </a>
+                                        <form action="/delete_quote/<%= quotes[quote].ID %>">
+                                            <a href="/quote/<%= quotes[quote].ID %>">
+                                                <img src="/images/view.png" title="View" alt="">
+                                            </a>
+                                            <a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= quotes[quote].ID %>">
+                                                <img src="/images/edit.png" title="Edit" alt="">
+                                            </a>
+                                            <button type="submit" class="btn btn-link">
+                                                    <img src="/images/delete.png" title="Delete" alt="">
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                                 <div class="model_popup">
@@ -52,53 +59,29 @@
                                                         <div class="col-sm-12 text-center">
                                                             <h2>Edit Quote</h2>
                                                         </div>
-                                                        <form>
+                                                        <form method="POST" action="/edit_quote/<%= quotes[quote].ID %>">
                                                             <div class="input_content">
                                                                 <div class="col-sm-6">
-                                                                    <label>Company Name</label>
-                                                                    <input type="text" class="form-control" value="Bright roots">
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <label>Customers Name</label>
-                                                                    <input type="text" class="form-control" value="Johan">
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <label>Contractors Name</label>
-                                                                    <input type="text" class="form-control" value="Johan Deo">
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <label>Job Name</label>
-                                                                    <input type="text" class="form-control" value="Plumbing">
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <label>Location</label>
-                                                                    <input type="text" class="form-control" value="Phase 8b Mohali">
-                                                                </div>
-                                                                <div class="col-sm-6">
                                                                     <label>Price per hour</label>
-                                                                    <input type="text" class="form-control" value="$10">
+                                                                    <input type="text" class="form-control" name="price_per_hour" value="<%= quotes[quote].PricePerHour %>">
                                                                 </div>
                                                                 <div class="col-sm-6">
                                                                     <label>Travel Charges</label>
-                                                                    <input type="text" class="form-control" value="$10">
+                                                                    <input type="text" class="form-control" name="travel_charges" value="<%= quotes[quote].TravelCharges %>">
                                                                 </div>
                                                                 <div class="col-sm-6">
-                                                                    <label>Track Changes</label>
-                                                                    <input type="text" class="form-control" value="$10">
+                                                                    <label>Truck Charges</label>
+                                                                    <input type="text" class="form-control" name="truck_charges"  value="<%= quotes[quote].TruckCharges %>">
                                                                 </div>
                                                                 <div class="col-sm-6">
                                                                     <label>ETA</label>
-                                                                    <input type="text" class="form-control" value="10 min">
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <label>Status</label>
-                                                                    <input type="text" class="form-control" value="In Progress">
+                                                                    <input type="text" class="form-control" name="eta" value="<%= quotes[quote].ETA %>">
                                                                 </div>
                                                                 <div class="col-xs-6">
                                                                     <input type="button" value="Cancel" class="btn btn-primary" data-dismiss="modal">
                                                                 </div>
                                                                 <div class="col-xs-6 text-right">
-                                                                    <input type="button" value="Save" class="btn btn-primary" style="background:#3ba997;">
+                                                                    <input type="submit" value="Save" class="btn btn-primary" style="background:#3ba997;">
                                                                 </div>
                                                             </div>
                                                         </form>

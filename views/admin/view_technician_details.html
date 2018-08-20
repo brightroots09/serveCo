@@ -44,7 +44,11 @@
                                             <p>Company</p>
                                         </div>
                                         <div class="col-sm-6">
-                                            <p><%= result[user].CompanyName %></p>
+                                            <% if(result[user].CompanyName != ""){ %>
+                                                <p><%= result[user].CompanyName %></p>
+                                            <% }else{ %>
+                                                <p>-</p>
+                                            <% } %>
                                         </div>
                                     </div>
                                     <div class="row">

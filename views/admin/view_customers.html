@@ -31,7 +31,7 @@
                                                 <div class="col-sm-12 text-center">
                                                     <h2>Customers</h2>
                                                 </div>
-                                                <form>
+                                                <form method="POST" action="/edit_customer/<%= customers[customer].id %>">
                                                     <div class="input_content">
                                                         <div class="col-sm-6 col-sm-offset-3 show_image">
                                                             <div class="fix-height">
@@ -43,33 +43,25 @@
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <label>First Name</label>
-                                                            <input type="text" class="form-control" value="<%= customers[customer].fname %>">
+                                                            <input type="text" class="form-control" name="first_name" value="<%= customers[customer].fname %>">
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <label>Last Name</label>
-                                                            <input type="text" class="form-control" value="<%= customers[customer].lname %>">
+                                                            <input type="text" class="form-control" name="last_name" value="<%= customers[customer].lname %>">
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <label>Email</label>
-                                                            <input type="text" class="form-control" value="<%= customers[customer].email %>">
+                                                            <input type="text" class="form-control" name="email" value="<%= customers[customer].email %>">
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <label>Phone Number</label>
-                                                            <input type="text" class="form-control" value="<%= customers[customer].ContactNo %>">
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <label>Total jobs</label>
-                                                            <input type="text" class="form-control" value="10">
-                                                        </div>
-                                                        <div class="col-sm-12">
-                                                            <label>Total Payment</label>
-                                                            <input type="text" class="form-control" value="$ 500">
+                                                            <input type="text" class="form-control" name="phone_number" value="<%= customers[customer].ContactNo %>">
                                                         </div>
                                                         <div class="col-xs-6">
                                                             <input type="button" value="Cancel" class="btn btn-primary" data-dismiss="modal">
                                                         </div>
                                                         <div class="col-xs-6 text-right">
-                                                            <input type="button" value="Save" class="btn btn-primary" style="background:#3ba997;">
+                                                            <input type="submit" value="Save" class="btn btn-primary" style="background:#3ba997;">
                                                         </div>
                                                     </div>
                                                 </form>
@@ -96,15 +88,17 @@
                                 <%= customers[customer].email %>
                             </td>
                             <td>
-                                <a href="/customer_details/<%= customers[customer].id %>">
-                                    <img src="/images/view.png" title="View" alt="">
-                                </a>
-                                <a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= customers[customer].id %>">
-                                    <img src="/images/edit.png" title="Edit" alt="">
-                                </a>
-                                <a href="">
-                                    <img src="/images/delete.png" title="Delete" alt="">
-                                </a>
+                                <form action="/delete_user/<%= customers[customer].id %>" method="POST">
+                                    <a href="/customer_details/<%= customers[customer].id %>">
+                                        <img src="/images/view.png" title="View" alt="">
+                                    </a>
+                                    <a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= customers[customer].id %>">
+                                        <img src="/images/edit.png" title="Edit" alt="">
+                                    </a>
+                                    <button type="submit" class="btn btn-link" href="">
+                                        <img src="/images/delete.png" title="Delete" alt="Delete">
+                                    </button>
+                                </form>
                             </td>
                         </tr>
 

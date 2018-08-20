@@ -7,7 +7,7 @@ global.con = mysql.createConnection({
     // database: 'erp'
     "host": "127.0.0.1",
     "port": 3306,
-    "database": "erp",
+    "database": "brightde_SC",
     "password": "root",
     "user": "root",
     "connector": "mysql",

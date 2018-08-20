@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var common_function = require("../functions/common_functions");
 var nodemailer = require('nodemailer');
-
+// var async = require("async")
 /**
  * ---------
  * DASHBOARD
@@ -10,7 +10,85 @@ var nodemailer = require('nodemailer');
  */
 
 router.get("/", function(req, res, callback){
-    res.render("index.html")
+
+    const table = "admin";
+    const condition = {
+        id: 1,
+        email: "admin@admin.com",
+        name: "Admin",
+        password: "admin@admin.com"
+    }
+
+    // var tasks = [];
+
+    // tasks.push(common_function.addAdmin.bind(null, table, condition))
+    // tasks.push(common_function.customer_count.bind(null, "customer"))
+    // tasks.push(common_function.contractor_count.bind(null, "contractor"))
+    // tasks.push(common_function.technician_count.bind(null, "technician"))
+
+    // async.parallel(tasks, function(error, result){
+    //     if(error) callback(error)
+    //     else{
+    //         console.log(result)
+    //     }
+    // })
+
+    common_function.addAdmin(table, condition, function(error){
+        if(error) callback(error)
+        else{
+            common_function.customer_count("customer", function(error, cust_count){
+                if(error) callback(error)
+                else{
+                    common_function.contractor_count("contractor", function(error, cont_count){
+                        if(error) callback(error)
+                        else{
+                            common_function.technician_count("technician", function(error, tech_count){
+                                if(error) callback(error)
+                                else{
+                                    res.render("index.html", {
+                                        customers: cust_count[0].count,
+                                        contractors: cont_count[0].count,
+                                        technicians: tech_count[0].count
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    })
+
+})
+
+router.get("/login", function(req, res, callback){
+    if(req.user){
+        res.redirect("/")
+    }
+    else{
+        res.render("login.html")
+    }
+})
+
+router.post("/login", function(req, res, callback){
+    const table = "admin";
+    const condition = {
+        email: req.body.email,
+        password: req.body.password
+    }
+
+    common_function.getAdmin(table, condition, function(error, error, result){
+        if(error) callback(error)
+        else{
+            if(error != null && result == null){
+                res.redirect("/login")
+            }
+            else if (error == null && result.length > 0 ){
+                res.redirect("/")
+            }
+        }
+    })
+
 })
 
 /**
@@ -18,71 +96,75 @@ router.get("/", function(req, res, callback){
  * GET ALL CUSTOMERS
  * -----------------
  */
-router.get("/customers", function (req, res, callback) {
+router.get("/users", function (req, res, callback) {
     const table = "User"
 
     const condition = {
-        fields: "id, fname, lname, email, ProfilePic, CompanyName, Address, ContactNo",
-        user_type: "customer"
+        fields: "*",
+        user_type: ""
     }
 
-    common_function.getAllUser(table, condition, function (error, customers) {
+    common_function.getAllUser(table, condition, function (error, users) {
         if (error) callback(error)
         else {
-            console.log(customers)
-            res.render("admin/view_customers.html", {
-                customers: customers
+            console.log(users)
+            res.render("admin/view_users.html", {
+                users: users
             })
         }
     })
 })
 
-/**
- * ------------------
- * GET ALL TECHNICIAN
- * ------------------
- */
-router.get("/technicians", function (req, res, callback) {
-    const table = "User"
-    const condition = {
-        fields: "*",        
-        user_type: "technician"
-    }
-
-    common_function.getAllUser(table, condition, function (error, technician) {
-        if (error) callback(error)
-        else {
-            console.log(technician)
-            res.render("admin/view_technicians.html", {
-                result: technician
-            })
-        }
-    })
+router.post("/add_user", function(req, res, callback){
+    console.log(req.body)
 })
 
+// /**
+//  * ------------------
+//  * GET ALL TECHNICIAN
+//  * ------------------
+//  */
+// router.get("/technicians", function (req, res, callback) {
+//     const table = "User"
+//     const condition = {
+//         fields: "*",        
+//         user_type: "technician"
+//     }
 
-/**
- * -------------------
- * GET ALL CONTRACTORS
- * -------------------
- */
-router.get("/contractors", function (req, res, callback) {
-    const table = "User"
-    const condition = {
-        fields: "id, NoOfTechnicians, email, CompanyName, Address, ContactNo, LicenceNo",        
-        user_type: "contractor"
-    }
+//     common_function.getAllUser(table, condition, function (error, technician) {
+//         if (error) callback(error)
+//         else {
+//             console.log(technician)
+//             res.render("admin/view_technicians.html", {
+//                 result: technician
+//             })
+//         }
+//     })
+// })
 
-    common_function.getAllUser(table, condition, function (error, contractors) {
-        if (error) callback(error)
-        else {
-            console.log(contractors)
-            res.render("admin/view_contractors.html", {
-                contractors: contractors
-            })
-        }
-    })
-})
+
+// /**
+//  * -------------------
+//  * GET ALL CONTRACTORS
+//  * -------------------
+//  */
+// router.get("/contractors", function (req, res, callback) {
+//     const table = "User"
+//     const condition = {
+//         fields: "id, Password, NoOfTechnicians, email, CompanyName, Address, ContactNo, LicenceNo",        
+//         user_type: "contractor"
+//     }
+
+//     common_function.getAllUser(table, condition, function (error, contractors) {
+//         if (error) callback(error)
+//         else {
+//             console.log(contractors)
+//             res.render("admin/view_contractors.html", {
+//                 contractors: contractors
+//             })
+//         }
+//     })
+// })
 
 
 /**
@@ -161,40 +243,76 @@ router.get("/technicians_details/:id", function(req, res, callback){
  * EDIT CUSTOMER
  * -------------
  */
-router.post("/edit/:id", function (req, res, callback) {
+router.post("/edit_customer/:id", function (req, res, callback) {
     const table = "User";
     condition = {
         id: req.params.id,
-        fields: "fname, lname, email, contactno",
-        update: {
-            fname: req.body.fname,
-            lname: req.body.lname,
-            email: req.body.email,
-            contactno: req.body.contactno
-        }
+        update: `fname='${req.body.first_name}', lname='${req.body.last_name}', email='${req.body.email}', contactno=${req.body.phone_number}`
     }
 
     common_function.editCustomerById(table, condition, function (error, result) {
         if (error) callback(error)
         else {
-            res.redirect(`/details/${req.params.id}`)
+            res.redirect(`/customer_details/${req.params.id}`)
         }
     })
 
 })
 
 /**
- * ----------------
- * DELETE CUSTOMER
- * ----------------
+ * ---------------
+ * EDIT CONTRACTOR
+ * ---------------
+ */
+router.post("/edit_contractor/:id", function (req, res, callback) {
+    const table = "User";
+    condition = {
+        id: req.params.id,
+        update: `CompanyName='${req.body.company_name}', Address='${req.body.address}', NoOfTechnicians='${req.body.no_of_technicians}', LicenceNo='${req.body.licence_no}', Email='${req.body.email}', ContactNo='${req.body.phone_no}'`
+    }
+
+    common_function.editCustomerById(table, condition, function (error, result) {
+        if (error) callback(error)
+        else {
+            res.redirect(`/customer_details/${req.params.id}`)
+        }
+    })
+
+})
+
+/**
+ * ---------------
+ * EDIT TECHNICIAN
+ * ---------------
+ */
+router.post("/edit_technician/:id", function (req, res, callback) {
+    const table = "User";
+    condition = {
+        id: req.params.id,
+        update: `fname='${req.body.first_name}', lname='${req.body.last_name}', email='${req.body.email}', ContactNo='${req.body.phone_number}', CompanyName='${req.body.company_name}', Skill='${req.body.designation}', LicenceNo='${req.body.licence_no}'`
+    }
+
+    common_function.editCustomerById(table, condition, function (error, result) {
+        if (error) callback(error)
+        else {
+            res.redirect(`/customer_details/${req.params.id}`)
+        }
+    })
+
+})
+
+/**
+ * -----------
+ * DELETE USER
+ * -----------
  */
 router.post("/delete_user/:id", function (req, res, callback) {
     const table = "User";
     condition = {
-        id: req.params.id
+        where: `id = ${req.params.id}`
     }
 
-    common_function.deleteUserById(table, condition, function (error, result) {
+    common_function.deleteById(table, condition, function (error, result) {
         if (error) callback(error)
         else {
             res.redirect("/")
@@ -251,10 +369,13 @@ router.post("/send_email/:id", function (req, res, callback) {
  * ------------
  */
 router.get("/jobs", function(req, res, callback){
+    const table = `ServicesFunction`
     const condition = {
-        fields: "*"
+        fields: `Services.ID as service_id, Services.ADDRESS, Services.URGENCY, Services.PROBLEM, Services.DESCRIPTION, Services.SERVICENAME, cust.Fname as customer_Fname, cust.Lname as customer_Lname, cust.CompanyName as customer_company_name, cont.Fname as contractor_Fname, cont.Lname as contractor_Lname, cont.CompanyName as contactor_company_name, tech.Fname as technician_Fname, tech.Lname as technician_Lname, tech.CompanyName as technician_comapny_name`,
+        join:  `Left JOIN Services on Services.ID = ServicesFunction.ServicesID LEFT JOIN User cust ON cust.Id = Services.UserId LEFT JOIN User cont ON cont.Id = ServicesFunction.ContractorID LEFT JOIN User tech ON tech.Id = ServicesFunction.TechnicianID`,
+        where: `""`
     }
-    common_function.getAllJobs(condition, function(error, jobs){
+    common_function.getAllJobs(table, condition, function(error, jobs){
         if(error) callback(error)
         else{
             console.log(jobs)
@@ -271,11 +392,17 @@ router.get("/jobs", function(req, res, callback){
  * -------------------------
  */
 router.get("/job/:id", function(req, res, callback){
+    const table = `ServicesFunction`
     const condition = {
-        fields: "*",
-        id: req.params.id
+        fields: `
+        Services.ADDRESS, Services.URGENCY, Services.PROBLEM, Services.DESCRIPTION, Services.SERVICENAME, cust.Fname as customer_Fname, cust.Lname as customer_Lname, cust.ProfilePic as customer_profile, cont.CompanyName as company_name, cont.Fname as contractor_Fname, cont.Lname as contractor_Lname, tech.Fname as technician_Fname, tech.Lname as technician_Lname, Estimation.PricePerHour as estimate_price_charge, Estimation.DiagnosticCharges as estimate_diagnostic_charge
+        `,
+        id: req.params.id,
+        join: `
+        Left JOIN Services on Services.ID = ServicesFunction.ServicesID LEFT JOIN User cust ON cust.Id = Services.USERID LEFT JOIN User cont ON cont.Id = ServicesFunction.ContractorID LEFT JOIN User tech ON tech.Id = ServicesFunction.TechnicianID LEFT JOIN ESTIMATION ON Estimation.ServicesID = Services.ID
+        `
     }
-    common_function.getJobById(condition, function(error, jobs){
+    common_function.getJobById(table, condition, function(error, jobs){
         if(error) callback(error)
         else{
             console.log(jobs)
@@ -292,11 +419,14 @@ router.get("/job/:id", function(req, res, callback){
  * -------------------
  */
 router.post("/edit_job/:id", function(req, res, callback){
+    const table = "Services"
     const condition = {
-        id: req.params.id
+        id: req.params.id,
+        update: `Services.SERVICENAME='${req.body.service_name}', Services.ADDRESS='${req.body.address}', Services.URGENCY='${req.body.urgency}'`,
+        where: `Services.ID=${req.params.id}`
     }
 
-    common_function.editJobById(condition, function(error, result){
+    common_function.editJobById(table, condition, function(error, result){
         if(error) callback(error)
         else{
             res.redirect("/jobs")
@@ -311,11 +441,12 @@ router.post("/edit_job/:id", function(req, res, callback){
  * ---------------------
  */
 router.post("/delete_job/:id", function(req, res, callback){
+    const table = `Services`
     const condition = {
-        id: req.params.id
+        where: `Services.ID = ${req.params.id}`
     }
 
-    common_function.deleteJobById(condition, function(error, result){
+    common_function.deleteById(table, condition, function(error, result){
         if(error) callback(error)
         else{
             res.redirect("/jobs")
@@ -330,10 +461,17 @@ router.post("/delete_job/:id", function(req, res, callback){
  * --------------
  */
 router.get("/quotes", function(req, res, callback){
+    const table = `Estimation`
     const condition = {
-        fields : ""
+        fields : `
+        Estimation.ID, contractor.Fname as contractor_Fname, contractor.Lname as contractor_lastname, contractor.CompanyName as contractor_company_name, service.ADDRESS as service_address, service.URGENCY as service_urgency, service.PROBLEM as service_problem, service.DESCRIPTION as service_description, service.SERVICENAME as service_name, Estimation.PricePerHour, Estimation.TravelCharges, Estimation.TruckCharges, Estimation.ETA, Estimation.Status, Estimation.CreatedBy, Estimation.DiagnosticCharges, accepted_user.Fname as accepted_user_Fname, accepted_user.Lname as accepted_user_Lname, accepted_user.CompanyName as accepted_user_company_name
+        `,
+        join : `
+        LEFT JOIN User contractor ON contractor.Id = Estimation.UserID LEFT JOIN User accepted_user ON accepted_user.Id = Estimation.AcceptedBy LEFT JOIN Services service ON service.ID = Estimation.ServicesID
+        `
+
     }
-    common_function.getQuote(condition, function(error, result){
+    common_function.getQuote(table, condition, function(error, result){
         if(error) callback(error)
         else{
             console.log(result)
@@ -350,11 +488,18 @@ router.get("/quotes", function(req, res, callback){
  * --------------------
  */
 router.get("/quote/:id", function(req, res, callback){
+    const table =  `Estimation`
     const condition = {
-        id: req.params.id
+        fields: `
+        Estimation.ID, contractor.Fname as contractor_Fname, contractor.Lname as contractor_lastname, service.ADDRESS as service_address, service.URGENCY as service_urgency, service.PROBLEM as service_problem, service.DESCRIPTION as service_description, service.SERVICENAME as service_name, Estimation.PricePerHour, Estimation.TravelCharges, Estimation.TruckCharges, Estimation.ETA, Estimation.Status, Estimation.CreatedBy, Estimation.DiagnosticCharges, accepted_user.Fname as accepted_user_Fname, accepted_user.Lname as accepted_user_Lname
+        `,
+        id: req.params.id,
+        join: `
+        LEFT JOIN User contractor ON contractor.Id = Estimation.UserID LEFT JOIN User accepted_user ON accepted_user.Id = Estimation.AcceptedBy LEFT JOIN Services service ON service.ID = Estimation.ServicesID
+        `
     }
 
-    common_function.getQuoteById(condition, function(error, result){
+    common_function.getQuoteById(table, condition, function(error, result){
         if(error) callback(error)
         else{
             console.log(result)
@@ -372,12 +517,14 @@ router.get("/quote/:id", function(req, res, callback){
  * ---------------------
  */
 
-router.post("/quote/:id", function(req, res, callback){
+router.post("/edit_quote/:id", function(req, res, callback){
+    const table =  `Estimation`;
     const condition = {
+        fields: `PricePerHour='${req.body.price_per_hour}', TravelCharges='${req.body.travel_charges}', TruckCharges='${req.body.truck_charges}', ETA='${req.body.eta}'`,
         id: req.params.id
     }
 
-    common_function.editQuoteById(condition, function(error, result){
+    common_function.editQuoteById(table, condition, function(error, result){
         if(error) callback(error)
         else{
             res.redirect(`/quote/${req.params.id}`)
@@ -393,11 +540,12 @@ router.post("/quote/:id", function(req, res, callback){
  * -----------------------
  */
 router.post("delete_quote/:id", function(req, res, callback) {
+    const table = `Estimation`
     const condition = {
-        id: req.params.id
+        where: `ID = ${req.params.id}`
     }
     
-    common_function.deleteQuote(condition, function(error, result){
+    common_function.deleteById(table, condition, function(error, result){
         if(error) callback(error)
         else{
             console.log(result)
@@ -458,11 +606,13 @@ router.get("/invoice/:id", function(req, res, callback){
  * -----------------------
  */
 router.post("/edit_invoice/:id", function(req, res, callback){
+    const table = "Invoice"
     const condition = {
+        fields: `Amount=${req.body.invoice_amount}`,
         id: req.params.id
     }
 
-    common_function.editInvoiceById(condition, function(error, result){
+    common_function.editInvoiceById(table, condition, function(error, result){
         if(error) callback(error)
         else {
             res.redirect(`/invoice/${req.params.id}`)
@@ -478,11 +628,12 @@ router.post("/edit_invoice/:id", function(req, res, callback){
  * -------------------------
  */
 router.post("/delete_invoice/:id", function(req, res, callback){
+    const table = `Invoice`
     const condition = {
-        id: req.params.id
+        where: `Invoice.InvoiceID = ${req.params.id}`
     }
 
-    common_function.deleteInvoiceById(condition, function(error, result){
+    common_function.deleteById(table, condition, function(error, result){
         if(error) callback(error)
         else{
             res.redirect("/invoices")

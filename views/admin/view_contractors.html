@@ -79,33 +79,7 @@
             </div>
         </div>
     </div>
-    <div class="model_popup pass">
-        <div id="myModal2" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-sm-12 text-center">
-                                <h2>Send Password</h2>
-                            </div>
-                            <form>
-                                <div class="input_content">
-                                    <div class="col-sm-12">
-                                        <label>Send Password</label>
-                                        <input type="text" class="form-control" value="123456789">
-                                    </div>
-                                    <div class="col-xs-12 text-center">
-                                        <input type="button" value="Submit" class="btn btn-primary" style="background:#3ba997;">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
+    
     <div class="row">
         <div class="col-sm-12">
             <div class="responsive">
@@ -115,7 +89,7 @@
                             <th>Company Name</th>
                             <th>Address</th>
                             <th>Number of technicians</th>
-                            <th>licenses NO</th>
+                            <th>License Number</th>
                             <th>Email</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -132,7 +106,7 @@
                                                     <div class="col-sm-12 text-center">
                                                         <h2>Edit Contractors</h2>
                                                     </div>
-                                                    <form method="" action="">
+                                                    <form method="POST" action="/edit_contractor/<%= contractors[contractor].id %>">
                                                         
                                                         <div class="input_content">
                                                             <div class="col-sm-6">
@@ -149,7 +123,7 @@
                                                             </div>
                                                             <div class="col-sm-6">
                                                                 <label>License no</label>
-                                                                <input type="text" class="form-control" name="licence_no" value="<%= contractors[contractor].LicenseNo %>">
+                                                                <input type="text" class="form-control" name="licence_no" value="<%= contractors[contractor].LicenceNo %>">
                                                             </div>
                                                             <div class="col-sm-6">
                                                                 <label>Email</label>
@@ -193,11 +167,40 @@
                                     </div>
                                 </div>        
                             </div>
+
+                            <div class="model_popup pass">
+                                <div id="myModal2<%= contractors[contractor].id %>" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-sm-12 text-center">
+                                                        <h2>Send Password</h2>
+                                                    </div>
+                                                    <form method="POST" action="/send_email/<%= contractors[contractor].id %>">
+                                                        <div class="input_content">
+                                                            <div class="col-sm-12">
+                                                                <label>Send Password</label>
+                                                                <input type="text" name="password" class="form-control" value="<%= contractors[contractor].Password %>">
+                                                            </div>
+                                                            <div class="col-xs-12 text-center">
+                                                                <input type="submit" value="Submit" class="btn btn-primary" style="background:#3ba997;">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                    </div>
+                                </div>
+                            </div>
+
                         <tr>
                                 <td><%= contractors[contractor].CompanyName %></td>
                                 <td> <%= contractors[contractor].Address %></td>
                                 <td><%= contractors[contractor].NoOfTechnicians %></td>
-                                <td><%= contractors[contractor].LicenseNo %></td>
+                                <td><%= contractors[contractor].LicenceNo %></td>
                                 <td><%= contractors[contractor].email %></td>
                                 <td>
                                     <label class="switch">
@@ -206,18 +209,20 @@
                                     </label>
                                 </td>
                                 <td style="width:180px;">
-                                    <a href="/contractor_details/<%= contractors[contractor].id %>">
-                                        <img src="images/view.png" title="View" alt="">
-                                    </a>
-                                    <a href="javascript:void();" data-toggle="modal" data-target="#myModal1<%= contractors[contractor].id %>">
-                                        <img src="images/edit.png" title="Edit" alt="">
-                                    </a>
-                                    <a href="javascript:void();">
-                                        <img src="images/delete.png" title="Delete" alt="">
-                                    </a>
-                                    <a href="javascript:void();" data-toggle="modal" data-target="#myModal2">
-                                        <img src="images/password.png" title="Delete" alt="">
-                                    </a>
+                                    <form action="/delete_user/<%= contractors[contractor].id %>" method="POST">
+                                        <a href="/contractor_details/<%= contractors[contractor].id %>">
+                                            <img src="images/view.png" title="View" alt="">
+                                        </a>
+                                        <a href="javascript:void();" data-toggle="modal" data-target="#myModal1<%= contractors[contractor].id %>">
+                                            <img src="images/edit.png" title="Edit" alt="">
+                                        </a>
+                                        <button type="submit" class="btn btn-link" href="javascript:void();">
+                                            <img src="images/delete.png" title="Delete" alt="">
+                                        </button>
+                                        <a href="javascript:void();" data-toggle="modal" data-target="#myModal2<%= contractors[contractor].id %>">
+                                            <img src="images/password.png" title="Delete" alt="">
+                                        </a>
+                                    </form>
                                 </td>
                             </tr>
                             <% } %>
