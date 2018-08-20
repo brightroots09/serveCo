@@ -43,14 +43,15 @@
                 <div class="row">
                     <div class="right_text">
                         <div class="col-md-8 col-sm-9 col-xs-9 padding  pull-right">
+                            <% if(user){ %>
                             <a href="javascript:void(0);" id="logout">
-                                <div class="col-sm-4 col-xs-4 phone_padding" style="padding-left:0;">
-                                    <img src="/images/no_user.png" alt="Admin" title="Admin" class="img-circle">
-                                </div>
+                                    <div class="col-sm-4 col-xs-4 phone_padding" style="padding-left:0;">
+                                        <img src="/images/no_user.png" alt="Admin" title="Admin" class="img-circle">
+                                    </div>
                                 <div class="col-sm-6 col-xs-6">
                                     <div class="name">
-                                        <h2>Johan</h2>
-                                        <span>Administrator</span>
+                                            <h2><%= user.name %></h2>
+                                        <span>Admin</span>
                                     </div>
                                 </div>
                                 <div class="col-sm-2 col-xs-2" style="padding-right:0;">
@@ -58,10 +59,14 @@
                                         <img src="/images/bottom.png" alt="" title="">
                                     </h5>
                                 </div>
+                                <div class="logout" style="display:none;">
+                                    <a href="/logout">Logout</a>
+                                </div>
+                                
                             </a>
-                            <div class="logout" style="display:none;">
-                                <a href="/logout">Logout</a>
-                            </div>
+                            <% } else { %>
+                                <a class="btn btn-primary custom" style="margin-top: 3%" href="/login">Login</a>
+                            <% } %>
                         </div>
                     </div>
                 </div>
