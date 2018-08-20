@@ -37,7 +37,7 @@ function addAdmin(table, condition, callback){
             })
         }
         else{
-            callback(null)
+            callback(null, result)
         }
     })
 }
