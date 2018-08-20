@@ -31,7 +31,7 @@
                                                 <div class="col-sm-12 text-center">
                                                     <h2>Customers</h2>
                                                 </div>
-                                                <form method="POST" action="/edit_customer/<%= customers[customer].id %>">
+                                                <form method="POST" action="/admin/edit_customer/<%= customers[customer].id %>">
                                                     <div class="input_content">
                                                         <div class="col-sm-6 col-sm-offset-3 show_image">
                                                             <div class="fix-height">
@@ -88,8 +88,8 @@
                                 <%= customers[customer].email %>
                             </td>
                             <td>
-                                <form action="/delete_user/<%= customers[customer].id %>" method="POST">
-                                    <a href="/customer_details/<%= customers[customer].id %>">
+                                <form action="/admin/delete_user/<%= customers[customer].id %>" method="POST">
+                                    <a href="/admin/customer_details/<%= customers[customer].id %>">
                                         <img src="/images/view.png" title="View" alt="">
                                     </a>
                                     <a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= customers[customer].id %>">

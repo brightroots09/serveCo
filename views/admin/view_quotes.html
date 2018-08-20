@@ -37,8 +37,8 @@
                                     <td><%= quotes[quote].PricePerHour %></td>
                                     <td><span class="label label-info" style="padding: 5px;">In Progress</span></td>
                                     <td style="width:180px;">
-                                        <form action="/delete_quote/<%= quotes[quote].ID %>">
-                                            <a href="/quote/<%= quotes[quote].ID %>">
+                                        <form action="/admin/delete_quote/<%= quotes[quote].ID %>">
+                                            <a href="/admin/quote/<%= quotes[quote].ID %>">
                                                 <img src="/images/view.png" title="View" alt="">
                                             </a>
                                             <a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= quotes[quote].ID %>">
@@ -59,7 +59,7 @@
                                                         <div class="col-sm-12 text-center">
                                                             <h2>Edit Quote</h2>
                                                         </div>
-                                                        <form method="POST" action="/edit_quote/<%= quotes[quote].ID %>">
+                                                        <form method="POST" action="/admin/edit_quote/<%= quotes[quote].ID %>">
                                                             <div class="input_content">
                                                                 <div class="col-sm-6">
                                                                     <label>Price per hour</label>

@@ -18,7 +18,6 @@ var session = require("./session")
 let model_index = async () => {
     try {
         await admin.sql_admin();
-        await session.sql_session();
         await chat.sql_chat();
         await estimation_setting.sql_estimation_setting();
         await estimation.sql_estimation();

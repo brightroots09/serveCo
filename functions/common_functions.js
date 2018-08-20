@@ -252,7 +252,7 @@ function getInvoiceById(condition, callback){
 
 }
 
-function editInvoiceById(condition, callback){
+function editInvoiceById(table, condition, callback){
     let sql = `
         UPDATE ${table} set ${condition.fields} where Invoice.InvoiceID=${condition.id}
     `

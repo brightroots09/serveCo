@@ -106,7 +106,7 @@
                                                     <div class="col-sm-12 text-center">
                                                         <h2>Edit Contractors</h2>
                                                     </div>
-                                                    <form method="POST" action="/edit_contractor/<%= contractors[contractor].id %>">
+                                                    <form method="POST" action="/admin/edit_contractor/<%= contractors[contractor].id %>">
                                                         
                                                         <div class="input_content">
                                                             <div class="col-sm-6">
@@ -177,7 +177,7 @@
                                                     <div class="col-sm-12 text-center">
                                                         <h2>Send Password</h2>
                                                     </div>
-                                                    <form method="POST" action="/send_email/<%= contractors[contractor].id %>">
+                                                    <form method="POST" action="/admin/send_email/<%= contractors[contractor].id %>">
                                                         <div class="input_content">
                                                             <div class="col-sm-12">
                                                                 <label>Send Password</label>
@@ -209,8 +209,8 @@
                                     </label>
                                 </td>
                                 <td style="width:180px;">
-                                    <form action="/delete_user/<%= contractors[contractor].id %>" method="POST">
-                                        <a href="/contractor_details/<%= contractors[contractor].id %>">
+                                    <form action="/admin/delete_user/<%= contractors[contractor].id %>" method="POST">
+                                        <a href="/admin/contractor_details/<%= contractors[contractor].id %>">
                                             <img src="images/view.png" title="View" alt="">
                                         </a>
                                         <a href="javascript:void();" data-toggle="modal" data-target="#myModal1<%= contractors[contractor].id %>">

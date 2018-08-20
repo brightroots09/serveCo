@@ -60,7 +60,7 @@ app.set('view engine', 'html');
 const admin = require("./routes/admin");
 // const employee = require("./routes/employee")
 
-app.use(admin);
+app.use("/admin", admin);
 // app.use(employee);
 
 app.get("*", (req, res, callback) => {

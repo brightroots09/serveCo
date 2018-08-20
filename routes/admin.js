@@ -14,29 +14,25 @@ const ensureAuthenticated = require("./auth")
  */
 
 router.get("/", function (req, res, callback) {
-    if(req.user){
+    if (req.user) {
 
         var tasks = []
 
         tasks.push(common_function.customer_count.bind(null, "customer"))
-    tasks.push(common_function.contractor_count.bind(null, "contractor"))
-    tasks.push(common_function.technician_count.bind(null, "technician"))
+        tasks.push(common_function.contractor_count.bind(null, "contractor"))
+        tasks.push(common_function.technician_count.bind(null, "technician"))
 
-    async.series(tasks, function (error, result) {
-        if (error) callback(error)
-        else {
-            res.render("index.html", {
-                result: {
-                    customers: result[0][0].count,
-                    contractors: result[1][0].count,
-                    technicians: result[2][0].count
-                }
-            })
-        }
-    })
+        async.parallel(tasks, function (error, result) {
+            if (error) callback(error)
+            else {
+                res.render("index.html", {
+                    result: result
+                })
+            }
+        })
     }
-    else{
-        res.redirect("/login")
+    else {
+        res.redirect("/admin/login")
     }
 })
 
@@ -58,10 +54,10 @@ router.get("/login", function (req, res, callback) {
 
         async.series(tasks, function (error, result) {
 
-            if(error) callback(error)
-            else{
+            if (error) callback(error)
+            else {
                 res.render("login.html", {
-                    message: req.flash("You must login first")
+                    message: req.flash("loginMessage")
                 })
             }
 
@@ -78,7 +74,7 @@ router.post("/login", passport.authenticate("local-login", {
 
 router.get("/logout", (req, res) => {
     req.logout();
-    res.redirect("/login");
+    res.redirect("/admin/login");
 })
 
 /**
@@ -106,7 +102,7 @@ router.get("/users", function (req, res, callback) {
         })
     }
     else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 })
 
@@ -140,7 +136,7 @@ router.get("/contractor_details/:id", function (req, res, callback) {
             }
         })
     } else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 
 })
@@ -169,7 +165,7 @@ router.get("/customer_details/:id", function (req, res, callback) {
         })
     }
     else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 
 })
@@ -196,7 +192,7 @@ router.get("/technicians_details/:id", function (req, res, callback) {
             }
         })
     } else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 })
 
@@ -216,11 +212,11 @@ router.post("/edit_customer/:id", function (req, res, callback) {
         common_function.editCustomerById(table, condition, function (error, result) {
             if (error) callback(error)
             else {
-                res.redirect(`/customer_details/${req.params.id}`)
+                res.redirect(`/admin/customer_details/${req.params.id}`)
             }
         })
     } else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 
 })
@@ -241,11 +237,11 @@ router.post("/edit_contractor/:id", function (req, res, callback) {
         common_function.editCustomerById(table, condition, function (error, result) {
             if (error) callback(error)
             else {
-                res.redirect(`/customer_details/${req.params.id}`)
+                res.redirect(`/admin/customer_details/${req.params.id}`)
             }
         })
     } else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 
 })
@@ -266,11 +262,11 @@ router.post("/edit_technician/:id", function (req, res, callback) {
         common_function.editCustomerById(table, condition, function (error, result) {
             if (error) callback(error)
             else {
-                res.redirect(`/customer_details/${req.params.id}`)
+                res.redirect(`/admin/customer_details/${req.params.id}`)
             }
         })
     } else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 
 })
@@ -290,12 +286,12 @@ router.post("/delete_user/:id", function (req, res, callback) {
         common_function.deleteById(table, condition, function (error, result) {
             if (error) callback(error)
             else {
-                res.redirect("/")
+                res.redirect("/admin")
             }
         })
     }
     else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 
 })
@@ -335,13 +331,13 @@ router.post("/send_email/:id", function (req, res, callback) {
                     if (error) {
                         callback(error);
                     } else {
-                        res.redirect(`/customer_details/${req.params.id}`)
+                        res.redirect(`/admin/customer_details/${req.params.id}`)
                     }
                 });
             }
         })
     } else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 })
 
@@ -369,7 +365,7 @@ router.get("/jobs", function (req, res, callback) {
             }
         })
     } else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 })
 
@@ -400,7 +396,7 @@ router.get("/job/:id", function (req, res, callback) {
             }
         })
     } else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 })
 
@@ -421,12 +417,12 @@ router.post("/edit_job/:id", function (req, res, callback) {
         common_function.editJobById(table, condition, function (error, result) {
             if (error) callback(error)
             else {
-                res.redirect("/jobs")
+                res.redirect("/admin/jobs")
             }
         })
     }
     else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 
 })
@@ -446,12 +442,12 @@ router.post("/delete_job/:id", function (req, res, callback) {
         common_function.deleteById(table, condition, function (error, result) {
             if (error) callback(error)
             else {
-                res.redirect("/jobs")
+                res.redirect("/admin/jobs")
             }
         })
     }
     else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 
 })
@@ -483,7 +479,7 @@ router.get("/quotes", function (req, res, callback) {
             }
         })
     } else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 })
 
@@ -516,7 +512,7 @@ router.get("/quote/:id", function (req, res, callback) {
         })
     }
     else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 
 })
@@ -538,12 +534,12 @@ router.post("/edit_quote/:id", function (req, res, callback) {
         common_function.editQuoteById(table, condition, function (error, result) {
             if (error) callback(error)
             else {
-                res.redirect(`/quote/${req.params.id}`)
+                res.redirect(`/admin/quote/${req.params.id}`)
             }
         })
     }
     else {
-        resw.redirect("/login")
+        resw.redirect("/admin/login")
     }
 
 })
@@ -565,12 +561,12 @@ router.post("delete_quote/:id", function (req, res, callback) {
             if (error) callback(error)
             else {
                 console.log(result)
-                res.redirect("/quote")
+                res.redirect("/admin/quote")
             }
         })
     }
     else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 
 })
@@ -599,7 +595,7 @@ router.get("/invoices", function (req, res, callback) {
 
     }
     else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 })
 
@@ -624,7 +620,7 @@ router.get("/invoice/:id", function (req, res, callback) {
             }
         })
     } else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 
 })
@@ -645,12 +641,12 @@ router.post("/edit_invoice/:id", function (req, res, callback) {
         common_function.editInvoiceById(table, condition, function (error, result) {
             if (error) callback(error)
             else {
-                res.redirect(`/invoice/${req.params.id}`)
+                res.redirect(`/admin/invoice/${req.params.id}`)
             }
         })
     }
     else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 
 })
@@ -671,13 +667,13 @@ router.post("/delete_invoice/:id", function (req, res, callback) {
         common_function.deleteById(table, condition, function (error, result) {
             if (error) callback(error)
             else {
-                res.redirect("/invoices")
+                res.redirect("/admin/invoices")
             }
         })
 
     }
     else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 })
 
@@ -691,7 +687,7 @@ router.get("/payments", function (req, res, callback) {
     if (req.user) {
         res.render("admin/view_payments.html")
     } else {
-        res.redirect("login")
+        res.redirect("/admin/login")
     }
 })
 
@@ -705,7 +701,7 @@ router.get("/payment/:id", function (req, res, callback) {
         res.render("admin/view_payment_details.html")
     }
     else {
-        res.redirect("/login")
+        res.redirect("/admin/login")
     }
 })
 
