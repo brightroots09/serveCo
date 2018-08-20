@@ -14,19 +14,11 @@ const ensureAuthenticated = require("./auth")
  */
 
 router.get("/", function (req, res, callback) {
+    if(req.user){
 
-    const table = "admin";
-    const condition = {
-        id: 1,
-        email: "admin@admin.com",
-        name: "Admin",
-        password: "admin@admin.com"
-    }
+        var tasks = []
 
-    var tasks = [];
-
-    tasks.push(common_function.addAdmin.bind(null, table, condition))
-    tasks.push(common_function.customer_count.bind(null, "customer"))
+        tasks.push(common_function.customer_count.bind(null, "customer"))
     tasks.push(common_function.contractor_count.bind(null, "contractor"))
     tasks.push(common_function.technician_count.bind(null, "technician"))
 
@@ -35,21 +27,44 @@ router.get("/", function (req, res, callback) {
         else {
             res.render("index.html", {
                 result: {
-                    customers: result[1][0].count,
-                    contractors: result[2][0].count,
-                    technicians: result[3][0].count
+                    customers: result[0][0].count,
+                    contractors: result[1][0].count,
+                    technicians: result[2][0].count
                 }
             })
         }
     })
+    }
+    else{
+        res.redirect("/login")
+    }
 })
 
-router.get("/login", function (req, res) {
-    console.log(req.user)
+router.get("/login", function (req, res, callback) {
     if (req.user) return res.redirect("/")
     else {
-        res.render("login.html", {
-            message: req.flash("loginMessage")
+
+        const table = "admin";
+        const condition = {
+            id: 1,
+            email: "admin@admin.com",
+            name: "Admin",
+            password: "admin@admin.com"
+        }
+
+        var tasks = [];
+
+        tasks.push(common_function.addAdmin.bind(null, table, condition))
+
+        async.series(tasks, function (error, result) {
+
+            if(error) callback(error)
+            else{
+                res.render("login.html", {
+                    message: req.flash("You must login first")
+                })
+            }
+
         })
     }
 })
