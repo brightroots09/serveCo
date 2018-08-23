@@ -32,7 +32,7 @@
 																<div class="col-sm-12 text-center">
 																	<h2>Customers</h2>
 																</div>
-																<form method="POST" action="/admin/edit_technician/<%= result[user].Id %>">
+																<form method="POST" action="/edit_technician/<%= result[user].Id %>">
 																	<div class="input_content">
 																		<div class="col-sm-6">
 																			<label>First Name</label>
@@ -88,7 +88,7 @@
 									<td><%= result[user].Skill %></td>
 									<td>Approved</td>
 									<td>
-										<form action="/admin/delete_user/<%= result[user].Id %>" method="POST">
+										<form action="/delete_user/<%= result[user].Id %>" method="POST">
 											<a href="/technicians_details/<%= result[user].Id %>">
 												<img src="/images/view.png" title="View" alt="">
 											</a>

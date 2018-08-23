@@ -33,7 +33,7 @@
 									<td><%= result[res].user_fname %> <% result[res].user_lname %></td>
 									<td><%= result[res].amount %></td>
 									<td style="width:180px;">
-										<form action="/admin/delete_invoice/<%= result[res].invoice_id %>" method="POST">
+										<form action="/delete_invoice/<%= result[res].invoice_id %>" method="POST">
 											<a href="invoice/<%= result[res].invoice_id %>">
 												<img src="/images/view.png" title="View" alt="">
 											</a>
@@ -55,7 +55,7 @@
 																<div class="col-sm-12 text-center">
 																	<h2>Edit Invoice</h2>
 																</div>
-																<form action="/admin/edit_invoice/<%= result[res].invoice_id %>" method="POST">
+																<form action="/edit_invoice/<%= result[res].invoice_id %>" method="POST">
 																	<div class="input_content">
 																		<div class="col-sm-6">
 																			<label>Invoice Name</label>

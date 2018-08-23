@@ -29,15 +29,15 @@ var store = new BetterMemoryStore({ expires: 60 * 60 * 1000, debug: true });
 
 app.use(session({
 
-   name: 'SESSION',
+    name: 'SESSION',
 
-   secret: 'MYSECRETISVERYSECRET',
+    secret: 'MYSECRETISVERYSECRET',
 
-   store:  store,
+    store: store,
 
-   resave: true,
+    resave: true,
 
-   saveUninitialized: true
+    saveUninitialized: true
 
 }));
 
@@ -46,7 +46,7 @@ app.use(flash())
 app.use(passport.initialize());
 app.use(passport.session())
 
-app.use(function(req, res, cb){
+app.use(function (req, res, cb) {
     res.locals.user = req.user;
     cb()
 })
@@ -56,21 +56,16 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 
+
 //Routes
 const admin = require("./routes/admin");
-// const employee = require("./routes/employee")
 
-app.use("/admin", admin);
-// app.use(employee);
-
-app.get("*", (req, res, callback) => {
-    res.render("index.html")
-})
+app.use(admin);
 
 sqlConnection();
 model.model_index();
 
 //server connection
-app.listen(PORT, function(){
+app.listen(PORT, function () {
     console.log(`Server started at PORT: ${PORT}`);
 });

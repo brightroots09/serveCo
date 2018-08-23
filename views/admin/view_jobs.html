@@ -46,8 +46,8 @@
                                     <td>$25</td>
                                     <td><span class="label label-success" style="padding: 5px;">Completed</span></td>
                                     <td style="width:180px;">
-                                        <form action="/admin/delete_job/<%= jobs[job].service_id %>" method="POST">
-                                            <a href="/admin/job/<%= jobs[job].service_id %>">
+                                        <form action="/delete_job/<%= jobs[job].service_id %>" method="POST">
+                                            <a href="/job/<%= jobs[job].service_id %>">
                                                 <img src="/images/view.png" title="View" alt="">
                                             </a>
                                             <a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= jobs[job].service_id %>">
@@ -71,7 +71,7 @@
                                                         <div class="col-sm-12 text-center">
                                                             <h2>Edit job</h2>
                                                         </div>
-                                                        <form action="/admin/edit_job/<%= jobs[job].service_id %>" method="POST">
+                                                        <form action="/edit_job/<%= jobs[job].service_id %>" method="POST">
                                                             <div class="input_content">
                                                                 <div class="col-sm-6">
                                                                     <label>Services</label>
