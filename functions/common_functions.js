@@ -22,6 +22,10 @@ exports.getAllInvoice       = getAllInvoice;
 exports.getInvoiceById      = getInvoiceById;
 exports.editInvoiceById     = editInvoiceById;
 
+exports.getChatForum        = getChatForum;
+exports.deleteChat          = deleteChat;
+exports.editChat            = editChat;
+exports.addChat             = addChat;
 
 function addAdmin(table, condition, callback){
     let sql = `SELECT * from ${table} where email=?`
@@ -98,7 +102,7 @@ function technician_count(user_type, callback){
 }
 
 function getAllUser(table, condition, callback) {
-    let sql = `select ${condition.fields} from ${table}`
+    let sql = `select ${condition.fields} from ${table} ORDER BY Id`
     con.query(sql, function (error, customer) {
         if (error) callback(error)
         else {
@@ -138,7 +142,7 @@ function editCustomerById(table, condition, callback){
 
 function deleteById(table, condition, callback){
     let sql = `delete from ${table} where ${condition.where}`
-
+    
     con.query(sql, function(error, result){
         if(error) callback(error)
         else{
@@ -246,7 +250,7 @@ function getInvoiceById(condition, callback){
     con.query(sql, function(error, result){
         if(error) callback(error)
         else{
-            callback(error, result)
+            callback(null, result)
         }
     })
 
@@ -263,4 +267,58 @@ function editInvoiceById(table, condition, callback){
         }
     })
 
+}
+
+function getChatForum(table, callback){
+    let sql = `
+        SELECT * from Post LEFT JOIN User ON User.Id = Post.UserID;
+    `
+
+    con.query(sql, function(error, result){
+        if(error) callback(error)
+        else{
+            callback(null, result)
+        }
+    })
+
+}
+
+function deleteChat(table, condition, callback){
+    let sql = `
+        DELETE from ${table} where PostID=${condition.id}
+    `
+
+    con.query(sql, function(error, result){
+        if(error) callback(error)
+        else{
+            callback(null, result)
+        }
+    })
+
+}
+
+function editChat(table, condition, callback){
+    let sql = `
+        UPDATE ${table} set ${condition.field} where PostId=${condition.id}
+    `
+    con.query(sql, function(error, result){
+        if(error) callback(error)
+        else{
+            callback(null, result)
+        }
+    })
+
+}
+
+function addChat(table, condition, callback){
+    let date = new Date()
+    let sql = `
+        INSERT into ${table} (UserID, Description, Photos, DateTime) values (?, ?, "", ?)
+    `
+    con.query(sql, [condition.values.user_id, condition.values.description, date], function(error, result){
+        if(error) callback(error)
+        else{
+            callback(null, result)
+        }
+    })
 }

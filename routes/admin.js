@@ -7,6 +7,14 @@ const passport = require("passport");
 const passportConfig = require("./passport");
 const ensureAuthenticated = require("./auth")
 
+var NodeGeocoder = require('node-geocoder');
+
+var options = {
+    provider: 'google'
+};
+
+var geocoder = NodeGeocoder(options);
+
 /**
  * ---------
  * DASHBOARD
@@ -27,7 +35,7 @@ router.get("/", function (req, res, callback) {
             else {
                 res.render("index.html", {
                     result: {
-                        customers: result[0][0].count, 
+                        customers: result[0][0].count,
                         contractors: result[1][0].count,
                         technicians: result[2][0].count,
                     }
@@ -98,7 +106,11 @@ router.get("/users", function (req, res, callback) {
         common_function.getAllUser(table, condition, function (error, users) {
             if (error) callback(error)
             else {
-                // console.log(users)
+                for(let i = 0; i< users.length; i++){
+                    geocoder.reverse({lat:users[i].Latitude, lon:users[i].Longitude}, function(err, res) {
+                        console.log(users[i].Id, res)
+                    });
+                };
                 res.render("admin/view_users.html", {
                     users: users
                 })
@@ -290,7 +302,7 @@ router.post("/delete_user/:id", function (req, res, callback) {
         common_function.deleteById(table, condition, function (error, result) {
             if (error) callback(error)
             else {
-                res.redirect("/")
+                res.redirect("/users")
             }
         })
     }
@@ -554,7 +566,7 @@ router.post("/edit_quote/:id", function (req, res, callback) {
  * DELETE PARTICULAR QUOTE 
  * -----------------------
  */
-router.post("delete_quote/:id", function (req, res, callback) {
+router.post("/delete_quote/:id", function (req, res, callback) {
     if (req.user) {
         const table = `Estimation`
         const condition = {
@@ -565,7 +577,7 @@ router.post("delete_quote/:id", function (req, res, callback) {
             if (error) callback(error)
             else {
                 console.log(result)
-                res.redirect("/quote")
+                res.redirect("/quotes")
             }
         })
     }
@@ -708,5 +720,126 @@ router.get("/payment/:id", function (req, res, callback) {
         res.redirect("/login")
     }
 })
+
+
+/**
+ * ----------------
+ * CHAT FORUM ROUTE
+ * ----------------
+ */
+
+router.get("/chat_forum", function (req, res, callback) {
+    if (req.user) {
+        const table = "Post"
+        const userTable = "User"
+
+        const condition = {
+            fields: "*",
+            user_type: ""
+        }
+
+        var asyncTasks = [];
+
+        asyncTasks.push(common_function.getChatForum.bind(null, table))
+        asyncTasks.push(common_function.getAllUser.bind(null, userTable, condition))
+
+        async.parallel(asyncTasks, function (error, chats) {
+            if (error) callback(error)
+            else {
+                res.render("admin/chat_forum.html", {
+                    chats: chats[0],
+                    users: chats[1]
+                })
+            }
+        })
+    }
+    else {
+        res.redirect("/login")
+    }
+})
+
+/**
+ * -----------------
+ * DELETE CHAT ROUTE
+ * -----------------
+ */
+
+router.post("/delete_chat/:id", function (req, res, callback) {
+    if (req.user) {
+
+        const table = "Post"
+        const condition = {
+            id: req.params.id
+        }
+
+        common_function.deleteChat(table, condition, function(error, result){
+            if(error) callback(error)
+            else{
+                res.redirect("/chat_forum")
+            }
+        })
+    }
+    else{
+        res.redirect("/login")
+    }
+})
+
+
+/**
+ * ---------------
+ * EDIT CHAT ROUTE
+ * ---------------
+ */
+
+ router.post("/edit_chat/:id", function(req, res, callback){
+     if(req.user){
+        const table = "Post"
+        const condition = {
+            id: req.params.id,
+            field: `Description='${req.body.description}'`,
+            data: req.body.description
+        }
+
+        common_function.editChat(table, condition, function(error, result){
+            if(error) callback(error)
+            else{
+                res.redirect("/chat_forum")
+            }
+        })
+
+     }
+     else{
+         res.redirect("/login")
+     }
+ })
+
+
+ /**
+  * --------------
+  * ADD CHAT ROUTE
+  * --------------
+  */
+
+  router.post("/chat_forum", function(req, res, callback){
+      if(req.user){
+        const table = "Post"
+        const condition = {
+            values: {
+                "user_id": req.body.users,
+                "description": req.body.description
+            }
+        }
+
+        common_function.addChat(table, condition, function(error, result){
+            if(error) callback(error)
+            else{
+                res.redirect("/chat_forum")
+            }
+        })
+
+      }else{
+          res.redirect("/login")
+      }
+  })
 
 module.exports = router;

@@ -11,7 +11,8 @@ const passport = require("passport");
 const session = require("express-session");
 const Store = require("express-session").Store
 const BetterMemoryStore = require('session-memory-store')(session);
-const flash = require("express-flash")
+const flash = require("express-flash");
+const moment = require("moment");
 
 //db
 const sqlConnection = require("./connection/sql_connection");
@@ -48,6 +49,7 @@ app.use(passport.session())
 
 app.use(function (req, res, cb) {
     res.locals.user = req.user;
+    res.locals.moment = moment;
     cb()
 })
 

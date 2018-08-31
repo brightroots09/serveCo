@@ -22,6 +22,7 @@ module.exports = {
             DeviceType varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
             Latitude varchar(512) COLLATE utf8mb4_unicode_ci NOT NULL,
             Longitude varchar(512) COLLATE utf8mb4_unicode_ci NOT NULL,
+            Country varchar(512) COLLATE utf8mb4_unicode_ci NOT NULL,
             Experience int(11) NOT NULL,
             services_provided text COLLATE utf8mb4_unicode_ci NOT NULL,
             services_names text COLLATE utf8mb4_unicode_ci NOT NULL

@@ -94,6 +94,7 @@
                                     <th>Email</th>
                                     <th>Contact Number</th>
                                     <th>Address</th>
+                                    <th>Country</th>
                                     <th>Number of technicians</th>
                                     <th>License Number</th>
                                     <th>User Type</th>
@@ -187,7 +188,7 @@
                                     <tr>
                                         <% if(users[user].ProfilePic != ""){ %>
                                             <td>
-                                                <img src="/images/<%= users[user].ProfilePic %>">
+                                                <!-- <img src="/images/<%= users[user].ProfilePic %>"> -->
                                             </td>
                                         <% }else { %>
                                             <td>
@@ -212,6 +213,13 @@
                                         <% if(users[user].Address){ %>
                                             <td>
                                                 <%= users[user].Address %>
+                                            </td>
+                                        <% }else{ %>
+                                            <td> Not Updated!</td>
+                                        <% } %>
+                                        <% if(users[user].Country){ %>
+                                            <td>
+                                                <%= users[user].Country %>
                                             </td>
                                         <% }else{ %>
                                             <td> Not Updated!</td>
