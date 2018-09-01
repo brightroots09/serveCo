@@ -15,17 +15,16 @@
                         </a>
                     </div>
                 </div>
-
                 <div class="model_popup">
-                        <div id="myModal" class="modal fade" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-sm-12 text-center">
-                                                <h2>Find User</h2>
-                                            </div>
-                                            <form action="/user" method="POST">
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-12 text-center">
+                                            <h2>Find User</h2>
+                                        </div>
+                                            <!-- <form action="/user" method="POST">
                                                 <div class="input_content">
                                                     <div class="col-sm-12 form-group">
                                                         <section id="main_content">
@@ -45,7 +44,7 @@
                                                             <input type="submit" value="Submit" class="btn btn-primary" style="background:#3ba997;">
                                                         </div>
                                                 </div>
-                                            </form>
+                                            </form> -->
                                         </div>
                                     </div>
                                 </div>
@@ -53,82 +52,13 @@
                             </div>
                         </div>
                     </div>
-                <!-- <div class="col-xs-6 text-right">
-                    <div class="top_heading">
-                        <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal">
-                            <img src="//images/plus.png" alt="" title="Add users">
-                        </a>
-                    </div>
-                </div> -->
-
-            </div>
-            <!-- <div class="model_popup">
-                <div id="myModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-sm-12 text-center">
-                                        <h2>Add User</h2>
-                                    </div>
-                                    <form action="/add_user" method="POST">
-                                        <div class="input_content">
-                                            <div class="col-sm-3">
-                                                <label>First Name</label>
-                                                <input type="text" class="form-control" name="first_name">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label>Last Name</label>
-                                                <input type="text" class="form-control" name="last_name">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>Company Name</label>
-                                                <input type="text" class="form-control" name="company_name">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>Address</label>
-                                                <input type="text" class="form-control" name="address">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>Number Of Technicians</label>
-                                                <input type="text" class="form-control" name="no_of_technician">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>License no</label>
-                                                <input type="text" class="form-control" name="licence_no">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>Email</label>
-                                                <input type="text" class="form-control" name="email">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>Phone No</label>
-                                                <input type="text" class="form-control" name="phone_no">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <label>User Type</label>
-                                                <select name="user_type" class="form-control">
-                                                    <option class="form-control">Choose...</option>
-                                                    <option class="form-control" value="customer">Customer</option>
-                                                    <option class="form-control" value="contractor">Contractor</option>
-                                                    <option class="form-control" value="technician">Technician</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-xs-6">
-                                                <input type="button" value="Cancel" class="btn btn-primary" data-dismiss="modal">
-                                            </div>
-                                            <div class="col-xs-6 text-right">
-                                                <input type="submit" value="Submit" class="btn btn-primary" style="background:#3ba997;">
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                
                 </div>
-            </div> -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="container" style="position: relative; width: 500px; height: 300px;"></div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-sm-12">
@@ -346,6 +276,193 @@
 
             </div>
             <% } %>
+
+            <script src="/dist/d3.min.js"></script>
+            <script src="/dist/topojson.v1.min.js"></script>
+            <script src="/dist/dist/datamaps.usa.min.js"></script>
+
+<script>
+   var election = new Datamap({
+  scope: 'usa',
+  element: document.getElementById('container'),
+  geographyConfig: {
+    highlightBorderColor: '#bada55',
+   popupTemplate: function(geography, data) {
+    return `<div class="hoverinfo">${geography.properties.name}`
+    },
+    highlightBorderWidth: 3
+  },
+
+  fills: {
+  'Republican': '#CC4731',
+  'Democrat': '#306596',
+  'Heavy Democrat': '#667FAF',
+  'Light Democrat': '#A9C0DE',
+  'Heavy Republican': '#CA5E5B',
+  'Light Republican': '#EAA9A8',
+  defaultFill: '#EDDC4E'
+},
+data:{
+  "AZ": {
+      "fillKey": "Republican"
+  },
+  "CO": {
+      "fillKey": "Light Democrat"
+  },
+  "DE": {
+      "fillKey": "Democrat"
+  },
+  "FL": {
+      "fillKey": "UNDECIDED"
+  },
+  "GA": {
+      "fillKey": "Republican"
+  },
+  "HI": {
+      "fillKey": "Democrat"
+  },
+  "ID": {
+      "fillKey": "Republican"
+  },
+  "IL": {
+      "fillKey": "Democrat"
+  },
+  "IN": {
+      "fillKey": "Republican"
+  },
+  "IA": {
+      "fillKey": "Light Democrat"
+  },
+  "KS": {
+      "fillKey": "Republican"
+  },
+  "KY": {
+      "fillKey": "Republican"
+  },
+  "LA": {
+      "fillKey": "Republican"
+  },
+  "MD": {
+      "fillKey": "Democrat"
+  },
+  "ME": {
+      "fillKey": "Democrat"
+  },
+  "MA": {
+      "fillKey": "Democrat"
+  },
+  "MN": {
+      "fillKey": "Democrat"
+  },
+  "MI": {
+      "fillKey": "Democrat"
+  },
+  "MS": {
+      "fillKey": "Republican"
+  },
+  "MO": {
+      "fillKey": "Republican"
+  },
+  "MT": {
+      "fillKey": "Republican"
+  },
+  "NC": {
+      "fillKey": "Light Republican"
+  },
+  "NE": {
+      "fillKey": "Republican"
+  },
+  "NV": {
+      "fillKey": "Heavy Democrat"
+  },
+  "NH": {
+      "fillKey": "Light Democrat"
+  },
+  "NJ": {
+      "fillKey": "Democrat"
+  },
+  "NY": {
+      "fillKey": "Democrat"
+  },
+  "ND": {
+      "fillKey": "Republican"
+  },
+  "NM": {
+      "fillKey": "Democrat"
+  },
+  "OH": {
+      "fillKey": "UNDECIDED"
+  },
+  "OK": {
+      "fillKey": "Republican"
+  },
+  "OR": {
+      "fillKey": "Democrat"
+  },
+  "PA": {
+      "fillKey": "Democrat"
+  },
+  "RI": {
+      "fillKey": "Democrat"
+  },
+  "SC": {
+      "fillKey": "Republican"
+  },
+  "SD": {
+      "fillKey": "Republican"
+  },
+  "TN": {
+      "fillKey": "Republican"
+  },
+  "TX": {
+      "fillKey": "Republican"
+  },
+  "UT": {
+      "fillKey": "Republican"
+  },
+  "WI": {
+      "fillKey": "Democrat"
+  },
+  "VA": {
+      "fillKey": "Light Democrat"
+  },
+  "VT": {
+      "fillKey": "Democrat"
+  },
+  "WA": {
+      "fillKey": "Democrat"
+  },
+  "WV": {
+      "fillKey": "Republican"
+  },
+  "WY": {
+      "fillKey": "Republican"
+  },
+  "CA": {
+      "fillKey": "Democrat"
+  },
+  "CT": {
+      "fillKey": "Democrat"
+  },
+  "AK": {
+      "fillKey": "Republican"
+  },
+  "AR": {
+      "fillKey": "Republican"
+  },
+  "AL": {
+      "fillKey": "Republican"
+  }
+},
+done: function(datamap) {
+    datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
+        console.log(geography.properties);
+        window.location.replace(`/user/${geography.properties.name}`);
+    });
+}
+});
+election.labels();
+</script>
 
                 </body>
 

@@ -116,35 +116,40 @@ router.get("/users", function (req, res, callback) {
     }
 })
 
-router.post("/user", function (req, res, callback) {
-    if (req.user) {
-        res.redirect(`/user/${req.body.region}`)
-    }
-    else {
-        res.redirect("/login")
-    }
-})
+// router.post("/user/:region", function (req, res, callback) {
+//     if (req.user) {
+//         res.redirect(`/user/${req.params.region}`)
+//     }
+//     else {
+//         res.redirect("/login")
+//     }
+// })
 
 router.get("/user/:region", function (req, res, callback) {
     if (req.user) {
         const table = "User"
 
         geocoder.geocode(`${req.params.region}`, function (err, response) {
-            console.log(response[0].latitude, response[0].longitude);
-            const condition = {
-                fields: "*",
-                user_type: "",
-                where: `SQRT(POW(User.Latitude - ${response[0].latitude}, 2) + POW(User.Longitude - ${response[0].longitude}, 2)) * 100 < 100`
-            }
-    
-            common_function.getAllUser(table, condition, function(error, users){
-                if(error) callback(error)
-                else{
-                    res.render("admin/view_users.html", {
-                        users: users
-                    })
+            if (response) {
+                console.log(response[0].latitude, response[0].longitude);
+                const condition = {
+                    fields: "*",
+                    user_type: "",
+                    where: `SQRT(POW(User.Latitude - ${response[0].latitude}, 2) + POW(User.Longitude - ${response[0].longitude}, 2)) * 100 < 100`
                 }
-            })
+
+                common_function.getAllUser(table, condition, function (error, users) {
+                    if (error) callback(error)
+                    else {
+                        res.render("admin/view_users.html", {
+                            users: users
+                        })
+                    }
+                })
+            }
+            else{
+                res.redirect(`/user/${req.params.region}`)
+            }
         });
 
     }
