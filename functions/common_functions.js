@@ -102,7 +102,7 @@ function technician_count(user_type, callback){
 }
 
 function getAllUser(table, condition, callback) {
-    let sql = `select ${condition.fields} from ${table} ORDER BY Id`
+    let sql = `select ${condition.fields} from ${table} where ${condition.where} ORDER BY Id`
     con.query(sql, function (error, customer) {
         if (error) callback(error)
         else {

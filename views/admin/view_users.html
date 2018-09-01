@@ -7,15 +7,62 @@
                         <h3>users List</h3>
                     </div>
                 </div>
+                
+                <div class="col-xs-6">
+                    <div class="top_heading text-right">
+                        <a href="javascript:void();" data-toggle="modal" data-target="#myModal">
+                            <h3>Filter</h3>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="model_popup">
+                        <div id="myModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-12 text-center">
+                                                <h2>Find User</h2>
+                                            </div>
+                                            <form action="/user" method="POST">
+                                                <div class="input_content">
+                                                    <div class="col-sm-12 form-group">
+                                                        <section id="main_content">
+                                                            <div class="col-sm-6">
+                                                                Country: <select class="crs-country form-control" data-region-id="one"></select>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                Region: <select id="one" class="form-control" name="region"></select>
+                                                            </div>
+                                                    
+                                                        </section>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                            <input type="button" value="Cancel" class="btn btn-primary" data-dismiss="modal">
+                                                        </div>
+                                                        <div class="col-xs-6 text-right">
+                                                            <input type="submit" value="Submit" class="btn btn-primary" style="background:#3ba997;">
+                                                        </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                            </div>
+                        </div>
+                    </div>
                 <!-- <div class="col-xs-6 text-right">
                     <div class="top_heading">
                         <a href="javascript:void(0);" data-toggle="modal" data-target="#myModal">
-                            <img src="/images/plus.png" alt="" title="Add users">
+                            <img src="//images/plus.png" alt="" title="Add users">
                         </a>
                     </div>
                 </div> -->
+
             </div>
-            <div class="model_popup">
+            <!-- <div class="model_popup">
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -81,7 +128,7 @@
 
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="row">
                 <div class="col-sm-12">
@@ -94,7 +141,6 @@
                                     <th>Email</th>
                                     <th>Contact Number</th>
                                     <th>Address</th>
-                                    <th>Country</th>
                                     <th>Number of technicians</th>
                                     <th>License Number</th>
                                     <th>User Type</th>
@@ -188,11 +234,11 @@
                                     <tr>
                                         <% if(users[user].ProfilePic != ""){ %>
                                             <td>
-                                                <!-- <img src="/images/<%= users[user].ProfilePic %>"> -->
+                                                <!-- <img src="//images/<%= users[user].ProfilePic %>"> -->
                                             </td>
                                         <% }else { %>
                                             <td>
-                                                <img src="/images/no_user.png">
+                                                <img src="//images/no_user.png">
                                             </td>
                                         <% } %>
                                         <% if(users[user].Fname != "" ){ %>
@@ -213,13 +259,6 @@
                                         <% if(users[user].Address){ %>
                                             <td>
                                                 <%= users[user].Address %>
-                                            </td>
-                                        <% }else{ %>
-                                            <td> Not Updated!</td>
-                                        <% } %>
-                                        <% if(users[user].Country){ %>
-                                            <td>
-                                                <%= users[user].Country %>
                                             </td>
                                         <% }else{ %>
                                             <td> Not Updated!</td>
@@ -251,40 +290,40 @@
                                             <% if(users[user].UserType == 'contractor'){ %>
                                                 <form action="/delete_user/<%= users[user].Id %>" method="POST">
                                                     <a href="/contractor_details/<%= users[user].Id %>">
-                                                        <img src="images/view.png" title="View" alt="">
+                                                        <img src="/images/view.png" title="View" alt="">
                                                     </a>
                                                     <a href="javascript:void();" data-toggle="modal" data-target="#myModal1<%= users[user].Id %>">
-                                                        <img src="images/edit.png" title="Edit" alt="">
+                                                        <img src="/images/edit.png" title="Edit" alt="">
                                                     </a>
                                                     <button type="submit" class="btn btn-link" href="javascript:void();">
-                                                        <img src="images/delete.png" title="Delete" alt="">
+                                                        <img src="/images/delete.png" title="Delete" alt="">
                                                     </button>
                                                     <a href="javascript:void();" data-toggle="modal" data-target="#myModal2<%= users[user].Id %>">
-                                                        <img src="images/password.png" title="Send Password" alt="">
+                                                        <img src="/images/password.png" title="Send Password" alt="">
                                                     </a>
                                                 </form>
                                             <% }else if(users[user].UserType == 'customer'){ %>
                                                 <form action="/delete_user/<%= users[user].Id %>" method="POST">
                                                     <a href="/customer_details/<%= users[user].Id %>">
-                                                        <img src="images/view.png" title="View" alt="">
+                                                        <img src="/images/view.png" title="View" alt="">
                                                     </a>
                                                     <a href="javascript:void();" data-toggle="modal" data-target="#myModal1<%= users[user].Id %>">
-                                                        <img src="images/edit.png" title="Edit" alt="">
+                                                        <img src="/images/edit.png" title="Edit" alt="">
                                                     </a>
                                                     <button type="submit" class="btn btn-link" href="javascript:void();">
-                                                        <img src="images/delete.png" title="Delete" alt="">
+                                                        <img src="/images/delete.png" title="Delete" alt="">
                                                     </button>
                                                 </form>
                                             <% } else{ %>
                                                 <form action="/delete_user/<%= users[user].Id %>" method="POST">
                                                     <a href="/technicians_details/<%= users[user].Id %>">
-                                                        <img src="images/view.png" title="View" alt="">
+                                                        <img src="/images/view.png" title="View" alt="">
                                                     </a>
                                                     <a href="javascript:void();" data-toggle="modal" data-target="#myModal1<%= users[user].Id %>">
-                                                        <img src="images/edit.png" title="Edit" alt="">
+                                                        <img src="/images/edit.png" title="Edit" alt="">
                                                     </a>
                                                     <button type="submit" class="btn btn-link" href="javascript:void();">
-                                                        <img src="images/delete.png" title="Delete" alt="">
+                                                        <img src="/images/delete.png" title="Delete" alt="">
                                                     </button>
                                                 </form>
                                             <% } %>
@@ -307,6 +346,7 @@
 
             </div>
             <% } %>
+
                 </body>
 
                 </html>

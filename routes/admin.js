@@ -8,11 +8,9 @@ const passportConfig = require("./passport");
 const ensureAuthenticated = require("./auth")
 
 var NodeGeocoder = require('node-geocoder');
-
 var options = {
     provider: 'google'
 };
-
 var geocoder = NodeGeocoder(options);
 
 /**
@@ -100,22 +98,55 @@ router.get("/users", function (req, res, callback) {
 
         const condition = {
             fields: "*",
-            user_type: ""
+            user_type: "",
+            where: 1
         }
 
         common_function.getAllUser(table, condition, function (error, users) {
             if (error) callback(error)
             else {
-                for(let i = 0; i< users.length; i++){
-                    geocoder.reverse({lat:users[i].Latitude, lon:users[i].Longitude}, function(err, res) {
-                        console.log(users[i].Id, res)
-                    });
-                };
                 res.render("admin/view_users.html", {
                     users: users
                 })
             }
         })
+    }
+    else {
+        res.redirect("/login")
+    }
+})
+
+router.post("/user", function (req, res, callback) {
+    if (req.user) {
+        res.redirect(`/user/${req.body.region}`)
+    }
+    else {
+        res.redirect("/login")
+    }
+})
+
+router.get("/user/:region", function (req, res, callback) {
+    if (req.user) {
+        const table = "User"
+
+        geocoder.geocode(`${req.params.region}`, function (err, response) {
+            console.log(response[0].latitude, response[0].longitude);
+            const condition = {
+                fields: "*",
+                user_type: "",
+                where: `SQRT(POW(User.Latitude - ${response[0].latitude}, 2) + POW(User.Longitude - ${response[0].longitude}, 2)) * 100 < 100`
+            }
+    
+            common_function.getAllUser(table, condition, function(error, users){
+                if(error) callback(error)
+                else{
+                    res.render("admin/view_users.html", {
+                        users: users
+                    })
+                }
+            })
+        });
+
     }
     else {
         res.redirect("/login")
@@ -772,14 +803,14 @@ router.post("/delete_chat/:id", function (req, res, callback) {
             id: req.params.id
         }
 
-        common_function.deleteChat(table, condition, function(error, result){
-            if(error) callback(error)
-            else{
+        common_function.deleteChat(table, condition, function (error, result) {
+            if (error) callback(error)
+            else {
                 res.redirect("/chat_forum")
             }
         })
     }
-    else{
+    else {
         res.redirect("/login")
     }
 })
@@ -791,8 +822,8 @@ router.post("/delete_chat/:id", function (req, res, callback) {
  * ---------------
  */
 
- router.post("/edit_chat/:id", function(req, res, callback){
-     if(req.user){
+router.post("/edit_chat/:id", function (req, res, callback) {
+    if (req.user) {
         const table = "Post"
         const condition = {
             id: req.params.id,
@@ -800,28 +831,28 @@ router.post("/delete_chat/:id", function (req, res, callback) {
             data: req.body.description
         }
 
-        common_function.editChat(table, condition, function(error, result){
-            if(error) callback(error)
-            else{
+        common_function.editChat(table, condition, function (error, result) {
+            if (error) callback(error)
+            else {
                 res.redirect("/chat_forum")
             }
         })
 
-     }
-     else{
-         res.redirect("/login")
-     }
- })
+    }
+    else {
+        res.redirect("/login")
+    }
+})
 
 
- /**
-  * --------------
-  * ADD CHAT ROUTE
-  * --------------
-  */
+/**
+ * --------------
+ * ADD CHAT ROUTE
+ * --------------
+ */
 
-  router.post("/chat_forum", function(req, res, callback){
-      if(req.user){
+router.post("/chat_forum", function (req, res, callback) {
+    if (req.user) {
         const table = "Post"
         const condition = {
             values: {
@@ -830,16 +861,16 @@ router.post("/delete_chat/:id", function (req, res, callback) {
             }
         }
 
-        common_function.addChat(table, condition, function(error, result){
-            if(error) callback(error)
-            else{
+        common_function.addChat(table, condition, function (error, result) {
+            if (error) callback(error)
+            else {
                 res.redirect("/chat_forum")
             }
         })
 
-      }else{
-          res.redirect("/login")
-      }
-  })
+    } else {
+        res.redirect("/login")
+    }
+})
 
 module.exports = router;
