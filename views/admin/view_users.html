@@ -7,13 +7,11 @@
                         <h3>users List</h3>
                     </div>                
                 </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div id="container" style="position: relative; width: 500px; height: 300px;"></div>
+                <div class="col-xs-6">
+                    <div class="top_heading text-right">
+                        <a href="/users" class="btn btn-link">&laquo; Go back</a>
+                    </div>
                 </div>
-            </div>
-
-            <div class="row">
                 <div class="col-sm-12">
                     <div class="responsive">
                         <table class="table table-striped table-bordered" id="example" style="width:100%">
@@ -42,7 +40,7 @@
                                                             <div class="col-sm-12 text-center">
                                                                 <h2>Edit users</h2>
                                                             </div>
-                                                            <form method="POST" action="/admin/edit_user/<%= users[user].Id %>">
+                                                            <form method="POST" action="/edit_user/<%= users[user].Id %>">
 
                                                                 <div class="input_content">
                                                                     <div class="col-sm-6">
@@ -95,7 +93,7 @@
                                                             <div class="col-sm-12 text-center">
                                                                 <h2>Send Password</h2>
                                                             </div>
-                                                            <form method="POST" action="/admin/send_email/<%= users[user].Id %>">
+                                                            <form method="POST" action="/send_email/<%= users[user].Id %>">
                                                                 <div class="input_content">
                                                                     <div class="col-sm-12">
                                                                         <label>Send Password</label>
@@ -171,11 +169,11 @@
                                         </td>
                                         <td style="width:180px;">
                                             <% if(users[user].UserType == 'contractor'){ %>
-                                                <form action="/admin/delete_user/<%= users[user].Id %>" method="POST">
-                                                    <a href="/admin/contractor_details/<%= users[user].Id %>">
+                                                <form action="/delete_user/<%= users[user].Id %>" method="POST">
+                                                    <a href="/contractor_details/<%= users[user].Id %>">
                                                         <img src="/images/view.png" title="View" alt="">
                                                     </a>
-                                                    <a href="/admin/chat/<%= users[user].Id %>">
+                                                    <a href="/chat/<%= users[user].Id %>">
                                                         <img src="/images/message.png" title="Chat" alt="Chat">
                                                     </a>
                                                     <a href="javascript:void();" data-toggle="modal" data-target="#myModal1<%= users[user].Id %>">
@@ -189,11 +187,11 @@
                                                     </a>
                                                 </form>
                                             <% }else if(users[user].UserType == 'customer'){ %>
-                                                <form action="/admin/delete_user/<%= users[user].Id %>" method="POST">
-                                                    <a href="/admin/customer_details/<%= users[user].Id %>">
+                                                <form action="/delete_user/<%= users[user].Id %>" method="POST">
+                                                    <a href="/customer_details/<%= users[user].Id %>">
                                                         <img src="/images/view.png" title="View" alt="">
                                                     </a>
-                                                    <a href="/admin/chat/<%= users[user].Id %>">
+                                                    <a href="/chat/<%= users[user].Id %>">
                                                         <img src="/images/message.png" title="Chat" alt="Chat">
                                                     </a>
                                                     <a href="javascript:void();" data-toggle="modal" data-target="#myModal1<%= users[user].Id %>">
@@ -204,11 +202,11 @@
                                                     </button>
                                                 </form>
                                             <% } else{ %>
-                                                <form action="/admin/delete_user/<%= users[user].Id %>" method="POST">
-                                                    <a href="/admin/technicians_details/<%= users[user].Id %>">
+                                                <form action="/delete_user/<%= users[user].Id %>" method="POST">
+                                                    <a href="/technicians_details/<%= users[user].Id %>">
                                                         <img src="/images/view.png" title="View" alt="">
                                                     </a>
-                                                    <a href="/admin/chat/<%= users[user].Id %>">
+                                                    <a href="/chat/<%= users[user].Id %>">
                                                         <img src="/images/message.png" title="Chat" alt="Chat">
                                                     </a>
                                                     <a href="javascript:void();" data-toggle="modal" data-target="#myModal1<%= users[user].Id %>">
@@ -227,209 +225,21 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
         <% } else { %>
-            <div class="right-side">
-                <h1>
-                    No User Found!
-                </h1>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="container" style="position: relative; width: 500px; height: 300px;"></div>
-                    </div>
+        <div class="right-side">
+            <h1>
+                No User Found!
+            </h1>
+            <div class="row">
+                <div class="col-xs-12">
+                    <a href="/users" class="btn btn-link">&laquo; Go back</a>
                 </div>
-
             </div>
-            <% } %>
 
-            <script src="/dist/d3.min.js"></script>
-            <script src="/dist/topojson.v1.min.js"></script>
-            <script src="/dist/dist/datamaps.usa.min.js"></script>
+        </div>
+        <% } %>
 
-<script>
-   var election = new Datamap({
-  scope: 'usa',
-  element: document.getElementById('container'),
-  geographyConfig: {
-    highlightBorderColor: '#bada55',
-   popupTemplate: function(geography, data) {
-    return `<div class="hoverinfo">${geography.properties.name}`
-    },
-    highlightBorderWidth: 3
-  },
-
-  fills: {
-  'Republican': '#CC4731',
-  'Democrat': '#306596',
-  'Heavy Democrat': '#667FAF',
-  'Light Democrat': '#A9C0DE',
-  'Heavy Republican': '#CA5E5B',
-  'Light Republican': '#EAA9A8',
-  defaultFill: '#EDDC4E'
-},
-data:{
-  "AZ": {
-      "fillKey": "Republican"
-  },
-  "CO": {
-      "fillKey": "Light Democrat"
-  },
-  "DE": {
-      "fillKey": "Democrat"
-  },
-  "FL": {
-      "fillKey": "UNDECIDED"
-  },
-  "GA": {
-      "fillKey": "Republican"
-  },
-  "HI": {
-      "fillKey": "Democrat"
-  },
-  "ID": {
-      "fillKey": "Republican"
-  },
-  "IL": {
-      "fillKey": "Democrat"
-  },
-  "IN": {
-      "fillKey": "Republican"
-  },
-  "IA": {
-      "fillKey": "Light Democrat"
-  },
-  "KS": {
-      "fillKey": "Republican"
-  },
-  "KY": {
-      "fillKey": "Republican"
-  },
-  "LA": {
-      "fillKey": "Republican"
-  },
-  "MD": {
-      "fillKey": "Democrat"
-  },
-  "ME": {
-      "fillKey": "Democrat"
-  },
-  "MA": {
-      "fillKey": "Democrat"
-  },
-  "MN": {
-      "fillKey": "Democrat"
-  },
-  "MI": {
-      "fillKey": "Democrat"
-  },
-  "MS": {
-      "fillKey": "Republican"
-  },
-  "MO": {
-      "fillKey": "Republican"
-  },
-  "MT": {
-      "fillKey": "Republican"
-  },
-  "NC": {
-      "fillKey": "Light Republican"
-  },
-  "NE": {
-      "fillKey": "Republican"
-  },
-  "NV": {
-      "fillKey": "Heavy Democrat"
-  },
-  "NH": {
-      "fillKey": "Light Democrat"
-  },
-  "NJ": {
-      "fillKey": "Democrat"
-  },
-  "NY": {
-      "fillKey": "Democrat"
-  },
-  "ND": {
-      "fillKey": "Republican"
-  },
-  "NM": {
-      "fillKey": "Democrat"
-  },
-  "OH": {
-      "fillKey": "UNDECIDED"
-  },
-  "OK": {
-      "fillKey": "Republican"
-  },
-  "OR": {
-      "fillKey": "Democrat"
-  },
-  "PA": {
-      "fillKey": "Democrat"
-  },
-  "RI": {
-      "fillKey": "Democrat"
-  },
-  "SC": {
-      "fillKey": "Republican"
-  },
-  "SD": {
-      "fillKey": "Republican"
-  },
-  "TN": {
-      "fillKey": "Republican"
-  },
-  "TX": {
-      "fillKey": "Republican"
-  },
-  "UT": {
-      "fillKey": "Republican"
-  },
-  "WI": {
-      "fillKey": "Democrat"
-  },
-  "VA": {
-      "fillKey": "Light Democrat"
-  },
-  "VT": {
-      "fillKey": "Democrat"
-  },
-  "WA": {
-      "fillKey": "Democrat"
-  },
-  "WV": {
-      "fillKey": "Republican"
-  },
-  "WY": {
-      "fillKey": "Republican"
-  },
-  "CA": {
-      "fillKey": "Democrat"
-  },
-  "CT": {
-      "fillKey": "Democrat"
-  },
-  "AK": {
-      "fillKey": "Republican"
-  },
-  "AR": {
-      "fillKey": "Republican"
-  },
-  "AL": {
-      "fillKey": "Republican"
-  }
-},
-done: function(datamap) {
-    datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
-        console.log(geography.properties);
-        window.location.replace(`/admin/user/${geography.properties.name}`);
-    });
-}
-});
-election.labels();
-</script>
 
                 </body>
 

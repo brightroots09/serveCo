@@ -6,5 +6,5 @@ function isAuthenticated (req, res, callback) {
     if (req.isAuthenticated()) {
         return callback()
     }
-    res.redirect("/admin/login")
+    res.redirect("/login")
 }

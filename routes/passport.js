@@ -9,14 +9,7 @@ passport.serializeUser(function (user, done) {
 
 passport.deserializeUser(function (id, done) {
     con.query("select * from admin where Id = " + id, function (err, rows) {
-        if(rows.length > 0){
-            done(null, rows[0]);
-        }
-        else{
-            con.query("select * from User where Id = " + id, function (err, rows) {
-                done(null, rows[0])
-            })
-        }
+        done(null, rows[0]);
     });
 });
 
@@ -26,26 +19,6 @@ passport.use('local-login', new localStratergy({
     passReqToCallback: true
 }, function (req, email, password, done) {
     con.query("SELECT * FROM admin WHERE `Email` = '" + email + "'", function (err, rows) {
-        if (err)
-            return done(err);
-        if (!rows.length) {
-            return done(null, null, req.flash("loginMessage", 'No user found.'));
-        }
-
-        if (!(rows[0].Password == password))
-            return done(null, null, req.flash("loginMessage", 'Oops! Wrong password.'));
-
-        return done(null, rows[0]);
-
-    });
-}));
-
-passport.use('employee-login', new localStratergy({
-    usernameField: 'email',
-    passwordField: 'password',
-    passReqToCallback: true
-}, function (req, email, password, done) {
-    con.query("SELECT * FROM User WHERE `Email` = '" + email + "'", function (err, rows) {
         if (err)
             return done(err);
         if (!rows.length) {
