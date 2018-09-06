@@ -101,6 +101,24 @@ router.get("/users", function (req, res, callback) {
     }
 })
 
+router.get("/india", function(req, res, callback){
+    if(req.user){
+        res.render("admin/region_ind.html")
+    }
+    else{
+        res.redirect("/login")
+    }
+})
+
+router.get("/usa", function(req, res, callback){
+    if(req.user){
+        res.render("admin/region_usa.html")
+    }
+    else{
+        res.redirect("/login")
+    }
+})
+
 router.get("/user/:region", function (req, res, callback) {
     if (req.user) {
         const table = "User"
