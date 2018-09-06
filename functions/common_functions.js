@@ -23,9 +23,11 @@ exports.getInvoiceById      = getInvoiceById;
 exports.editInvoiceById     = editInvoiceById;
 
 exports.getChatForum        = getChatForum;
-exports.deleteChat          = deleteChat;
-exports.editChat            = editChat;
-exports.addChat             = addChat;
+exports.deletePost          = deletePost;
+exports.editPost            = editPost;
+exports.addPost             = addPost;
+
+exports.chatUser            = chatUser;
 
 function addAdmin(table, condition, callback){
     let sql = `SELECT * from ${table} where email=?`
@@ -283,7 +285,7 @@ function getChatForum(table, callback){
 
 }
 
-function deleteChat(table, condition, callback){
+function deletePost(table, condition, callback){
     let sql = `
         DELETE from ${table} where PostID=${condition.id}
     `
@@ -297,7 +299,7 @@ function deleteChat(table, condition, callback){
 
 }
 
-function editChat(table, condition, callback){
+function editPost(table, condition, callback){
     let sql = `
         UPDATE ${table} set ${condition.field} where PostId=${condition.id}
     `
@@ -310,7 +312,7 @@ function editChat(table, condition, callback){
 
 }
 
-function addChat(table, condition, callback){
+function addPost(table, condition, callback){
     let date = new Date()
     let sql = `
         INSERT into ${table} (UserID, Description, Photos, DateTime) values (?, ?, "", ?)
@@ -321,4 +323,19 @@ function addChat(table, condition, callback){
             callback(null, result)
         }
     })
+}
+
+
+function chatUser(table, condition, callback){
+    let sql = `
+        SELECT * from ${table} where ${condition.where}
+    `
+
+    con.query(sql, function(error, result){
+        if(error) callback(error)
+        else{
+            callback(null, result)
+        }
+    })
+
 }

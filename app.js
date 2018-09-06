@@ -61,8 +61,11 @@ app.set('view engine', 'html');
 
 //Routes
 const admin = require("./routes/admin");
+const employee = require("./routes/employee")
 
-app.use(admin);
+app.use("/admin", admin);
+app.use("/employee", employee);
+
 
 sqlConnection();
 model.model_index();

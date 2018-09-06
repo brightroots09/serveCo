@@ -88,7 +88,7 @@
                                                     <div class="col-sm-12 text-center">
                                                         <h2>Edit chat</h2>
                                                     </div>
-                                                    <form method="POST" action="/edit_chat/<%= chats[chat].PostID %>">
+                                                    <form method="POST" action="/edit_post/<%= chats[chat].PostID %>">
 
                                                         <div class="input_content">
                                                             <div class="col-sm-12">
@@ -125,7 +125,7 @@
                                 <td><%= chats[chat].Description %></td>
                                 <td style="width:180px;"><%= moment(chats[chat].DateTime).format("YYYY-MM-DD HH:mm:ss") %></td>
                                 <td style="width:180px;">
-                                    <form action="/delete_chat/<%= chats[chat].PostID %>" method="POST">
+                                    <form action="/delete_post/<%= chats[chat].PostID %>" method="POST">
                                         <!-- <a href="/chat_details/<%= chats[chat].PostID %>">
                                             <img src="images/view.png" title="View" alt="">
                                         </a> -->
