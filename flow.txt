@@ -1,0 +1,173 @@
+/*
+* -----------
+* LOGIN ROUTE
+* -----------
+*/
+Link              : "/login",
+Page Rendered     : "login.html",
+Description       : This page will check the email and password of user. 
+                    If any of the credenatials entered is wrong then it will throw error.
+                    I case of success it then moves to route "/" i.e dashboard
+
+
+/*
+* ----------
+* HOME ROUTE
+* ----------
+*/
+Link               : "/",
+Page Rendered      : "index.html",
+Description        : In the center of this page there are number of customers, contractors and technicians associated with the website.
+                     Then on the left side there are links through which admin can view "All The Users i.e customers, contractors, technicians", "List of all the jobs", "List of Quotes", "Invoices", "Payment History", "Forum"
+
+/*
+* -----------
+* USERS ROUTE
+* -----------
+*/
+Link                : "/users",
+Page Rendered       : "region.html",
+Description         : "Admin have to select the map of the country whose users he wanted to see"
+
+
+/*
+* ------------------
+* INDIA REGION ROUTE
+* ------------------
+*/
+Link                : "/india",
+Page Rendered       : "region_india.html",
+Description         : "If India Map is select then admin have to select particular region whose users he wanted to see"
+
+
+/*
+* ----------------
+* USA REGION ROUTE
+* ----------------
+*/
+Link                : "/usa",
+Page Rendered       : "region_usa.html",
+Description         : "If Usa Map is select then admin have to select particular region whose users he wanted to see"
+
+
+/*
+* -----------------
+* USER REGION ROUTE
+* -----------------
+*/
+Link                : "/user/:region_name",
+Page Rendered       : "view_users.html",
+Description         : "A list of all user associated with particular region will be displayed."
+                      "Admin can search particular user, Edit User, Delete User, And send password to the contractors"
+
+
+/*
+* ------------------
+* USER DETAILS ROUTE
+* ------------------
+*/
+
+Link                : "/customer_details/:user_id",
+Page Rendered       : "view_customer_details.html",
+Description         : "Admin can view all the details of particular customer i.e Name, Email, Phone number, Total Jobs, Total Payment, Profile                            picture and List of jobs"
+
+Link                : "/contractor_details/:user_id",
+Page Rendered       : "view_contractor_details.html",
+Description         : "Admin can view all the basic details like Company name, Address, Number of technicians working under him, Email, Status"
+                      "Along with basic details admin can also see Estimation Details i.e price per hour, Diagnostic rates, travel charges and list of jobs assigned to customers"
+
+Link                : "/technicians_details/:user_id",
+Page Rendered       : "view_technician_details.html",
+Description         : "Admin can view all the basic details like Name, Address, Email, Phone number, Designation, License number, Status, License                         Image"
+                      "Along with basic details admin can also see Total jobs completed by particular technician, Total earnings, and List of jobs"
+
+/*
+* --------------
+* ALL JOBS ROUTE
+* --------------
+*/
+Link                : "/jobs",
+Page Rendered       : "view_jobs.html",
+Description         : "A list of all the jobs where admin can search job, view particular job, Delete job, and edit job"
+
+
+/*
+* ------------------
+* JOBS DETAILS ROUTE
+* ------------------
+*/
+Link                : "/job/:job_id",
+Page Rendered       : "view_job_details.html",
+Description         : "Admin can view basic details associated with particular job like user name, technician name, location, price, urgency."
+                      "Along with basic details he can view Job description and Estimation details"
+
+/*
+* ------------
+* QUOTES ROUTE
+* ------------
+*/
+Link                : "/quotes",
+Page Rendered       : "view_quotes.html",
+Description         : "A list of all the quotes where admin can search quotes, view particular quote, Delete quote, and edit quote"
+
+
+/*
+* --------------------
+* QUOTES DETAILS ROUTE
+* --------------------
+*/
+Link                : "/quote/:quote_id",
+Page Rendered       : "view_quotes_details.html",
+Description         : "Admin can view Customer Name, Job Name, Location, Price Per Hour, Travel Charges, Truck Charges, ETA, Status"
+
+
+
+/*
+* --------------
+* INVOICES ROUTE
+* --------------
+*/
+Link                : "/invoices",
+Page Rendered       : "view_invoices.html",
+Description         : "A list of all the invoices where admin can search invoice, view particular invoice, Delete invoice, and edit invoice"
+
+
+/*
+* ---------------------
+* INVOICE DETAILS ROUTE
+* ---------------------
+*/
+Link                : "/invoice/:invoice_id",
+Page Rendered       : "view_invoice_details.html",
+Description         : "Admin can view Invoice number, Status, Invoice name, Date, Customer and Amount"
+
+
+
+/*
+* ---------------------
+* PAYMENT HISTORY ROUTE
+* ---------------------
+*/
+Link                : "/payments",
+Page Rendered       : "view_payment.html",
+Description         : "A list of all the jobs where admin can search job, view particular job"
+
+
+/*
+* -----------------------------
+* PAYMENT HISTORY DETAILS ROUTE
+* -----------------------------
+*/
+Link                : "/payment/:payment_id",
+Page Rendered       : "view_payment_details.html",
+Description         : "Admin can view Customer Name, Contractor Name, Service Name, Price, Status, Location"
+
+
+/*
+* -----------
+* FORUM ROUTE
+* -----------
+*/
+Link                : "/chat_forum",
+Page Rendered       : "chat_forum.html",
+Description         : "A list of all the forum messages where admin can search forum message, edit particular message, Delete message, and send message to particular user"

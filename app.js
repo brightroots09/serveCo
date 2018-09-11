@@ -42,10 +42,10 @@ app.use(session({
 
 }));
 
-app.use(flash())
+app.use(flash());
 
 app.use(passport.initialize());
-app.use(passport.session())
+app.use(passport.session());
 
 app.use(function (req, res, cb) {
     res.locals.user = req.user;
@@ -63,7 +63,6 @@ app.set('view engine', 'html');
 const admin = require("./routes/admin");
 
 app.use(admin);
-
 
 sqlConnection();
 model.model_index();

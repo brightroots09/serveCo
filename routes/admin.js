@@ -125,11 +125,10 @@ router.get("/user/:region", function (req, res, callback) {
 
         geocoder.geocode(`${req.params.region}`, function (err, response) {
             if (response) {
-                console.log(response[0].latitude, response[0].longitude);
                 const condition = {
                     fields: "*",
                     user_type: "",
-                    where: `SQRT(POW(User.Latitude - ${response[0].latitude}, 2) + POW(User.Longitude - ${response[0].longitude}, 2)) * 100 < 100`
+                    where: `SQRT(POW(User.Latitude - ${response[0].latitude}, 2) + POW(User.Longitude - ${response[0].longitude}, 2)) * 100 < 130`
                 }
 
                 common_function.getAllUser(table, condition, function (error, users) {

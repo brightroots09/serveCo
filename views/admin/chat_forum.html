@@ -79,82 +79,82 @@
                         <% for(chat in chats){ %>
 
 
-                            <div class="model_popup">
-                                <div id="myModal<%= chats[chat].PostID %>" class="modal fade" role="dialog">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col-sm-12 text-center">
-                                                        <h2>Edit chat</h2>
-                                                    </div>
-                                                    <form method="POST" action="/edit_post/<%= chats[chat].PostID %>">
-
-                                                        <div class="input_content">
-                                                            <div class="col-sm-12">
-                                                                <label>Description</label>
-                                                                <textarea class="form-control" name="description" value=""><%= chats[chat].Description %></textarea>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <input type="button" value="Cancel" class="btn btn-primary" data-dismiss="modal">
-                                                            </div>
-                                                            <div class="col-sm-6 text-right">
-                                                                <input type="submit" value="Save" class="btn btn-primary" style="background:#3ba997;">
-                                                            </div>
-                                                        </div>
-                                                    </form>
-
+                        <div class="model_popup">
+                            <div id="myModal<%= chats[chat].PostID %>" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-sm-12 text-center">
+                                                    <h2>Edit chat</h2>
                                                 </div>
+                                                <form method="POST" action="/edit_post/<%= chats[chat].PostID %>">
+
+                                                    <div class="input_content">
+                                                        <div class="col-sm-12">
+                                                            <label>Description</label>
+                                                            <textarea class="form-control" name="description" value=""><%= chats[chat].Description %></textarea>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="button" value="Cancel" class="btn btn-primary" data-dismiss="modal">
+                                                        </div>
+                                                        <div class="col-sm-6 text-right">
+                                                            <input type="submit" value="Save" class="btn btn-primary" style="background:#3ba997;">
+                                                        </div>
+                                                    </div>
+                                                </form>
+
                                             </div>
                                         </div>
-
                                     </div>
+
                                 </div>
                             </div>
+                        </div>
                             
 
                         <tr>
-                                <td style="width:120px;">
-                                    <% if(chats[chat].Fname){ %>
-                                        <%= chats[chat].Fname %> <%= chats[chat].Lname %>
-                                    <% }else{ %>
-                                        <%= chats[chat].CompanyName %>
-                                    <% } %>
-                                </td>
-                                <td> <%= chats[chat].Email %></td>
-                                <td><%= chats[chat].Description %></td>
-                                <td style="width:180px;"><%= moment(chats[chat].DateTime).format("YYYY-MM-DD HH:mm:ss") %></td>
-                                <td style="width:180px;">
-                                    <form action="/delete_post/<%= chats[chat].PostID %>" method="POST">
-                                        <!-- <a href="/chat_details/<%= chats[chat].PostID %>">
-                                            <img src="images/view.png" title="View" alt="">
-                                        </a> -->
-                                        <a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= chats[chat].PostID %>">
-                                            <img src="images/edit.png" title="Edit" alt="">
-                                        </a>
-                                        <button type="submit" class="btn btn-link" href="javascript:void();">
-                                            <img src="images/delete.png" title="Delete" alt="">
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                </div>
+                            <td style="width:120px;">
+                                <% if(chats[chat].Fname){ %>
+                                    <%= chats[chat].Fname %> <%= chats[chat].Lname %>
+                                <% }else{ %>
+                                    <%= chats[chat].CompanyName %>
+                                <% } %>
+                            </td>
+                            <td> <%= chats[chat].Email %></td>
+                            <td><%= chats[chat].Description %></td>
+                            <td style="width:180px;"><%= moment(chats[chat].DateTime).format("YYYY-MM-DD HH:mm:ss") %></td>
+                            <td style="width:180px;">
+                                <form action="/delete_post/<%= chats[chat].PostID %>" method="POST">
+                                    <!-- <a href="/chat_details/<%= chats[chat].PostID %>">
+                                        <img src="images/view.png" title="View" alt="">
+                                    </a> -->
+                                    <a href="javascript:void();" data-toggle="modal" data-target="#myModal<%= chats[chat].PostID %>">
+                                        <img src="images/edit.png" title="Edit" alt="">
+                                    </a>
+                                    <button type="submit" class="btn btn-link" href="javascript:void();">
+                                        <img src="images/delete.png" title="Delete" alt="">
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
             </div>
         </div>
-        
-        
     </div>
-    <% } else { %>
-        <div class="right-side">
-                <h1>
-                    No chats Found!
-                </h1>
-            
-            </div>
-        <% } %>
+        
+        
+</div>
+<% } else { %>
+    <div class="right-side">
+        <h1>
+            No chats Found!
+        </h1>
+    
+    </div>
+<% } %>
 </body>
 
 </html>

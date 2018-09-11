@@ -28,22 +28,25 @@
     <script src="/dist/dist/datamaps.usa.min.js"></script>
 
     <script>
-        var election = new Datamap({
+        var usa = new Datamap({
             scope: 'usa',
             element: document.getElementById('container'),
             geographyConfig: {
                 highlightBorderColor: '#bada55',
                 popupTemplate: function (geography, data) {
-                    return `<div class="hoverinfo">${geography.properties.name}`
+                    return `<div class="hoverinfo">${geography.properties.name}</div>`
                 },
                 highlightBorderWidth: 3
             },
             done: function (datamap) {
                 datamap.svg.selectAll('.datamaps-subunit').on('click', function (geography) {
-                    console.log(geography.properties);
                     window.location.replace(`/user/${geography.properties.name}`);
                 });
             }
         });
-        election.labels();
+        usa.labels();
     </script>
+
+</body>
+
+</html>

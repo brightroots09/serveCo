@@ -7,14 +7,14 @@
                 </div>
             </div>
             <div class="col-xs-6">
-                    <div class="top_heading text-right">
-                        <a href="/users" class="btn btn-link">&laquo; Go back</a>
-                    </div>
+                <div class="top_heading text-right">
+                    <a href="/users" class="btn btn-link">&laquo; Go back</a>
                 </div>
+            </div>
             <div class="col-xs-12">
                 <div class="row">
-                    <div class="col-xs-6 col-xs-offset-3">
-                        <div id="container" style="position: relative"></div>
+                    <div class="col-xs-6">
+                        <div id="india" style="height: 600px; width: 900px;"></div>
                     </div>
                 </div>
             </div>
@@ -26,36 +26,32 @@
     <script src="/dist/d3.min.js"></script>
     <script src="/dist/topojson.v1.min.js"></script>
     <script src="/dist/dist/datamaps.ind.min.js"></script>
-
     <script>
-        var election = new Datamap({
+        var ind = new Datamap({
+            element: document.getElementById('india'),
             scope: 'ind',
-            height: 600,
-            width: 500,
-            element: document.getElementById('container'),
             geographyConfig: {
                 highlightBorderColor: '#bada55',
                 popupTemplate: function (geography, data) {
-                    return `<div class="hoverinfo">${geography.properties.name}`
+                    return `<div class="hoverinfo">${geography.properties.name}</div>`
                 },
                 highlightBorderWidth: 3
             },
             setProjection: function (element) {
-                var projection = d3.geo.equirectangular()
-                    .center([80, 18])
-                    .scale(900)
-                    .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
-                var path = d3.geo.path()
-                    .projection(projection);
-
+                var projection = d3.geo.mercator()
+                    .center([78.9629, 23.5937])
+                    .scale(1000);
+                var path = d3.geo.path().projection(projection);
                 return { path: path, projection: projection };
             },
             done: function (datamap) {
                 datamap.svg.selectAll('.datamaps-subunit').on('click', function (geography) {
-                    console.log(geography.properties);
                     window.location.replace(`/user/${geography.properties.name}`);
                 });
             }
         });
-        election.labels();
+        ind.labels();
     </script>
+    </body>
+
+    </html>
